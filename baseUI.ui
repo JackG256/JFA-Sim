@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>JumpingFiniteAutomata</class>
+ <widget class="QDialog" name="JumpingFiniteAutomata">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>904</width>
+    <height>868</height>
+   </rect>
+  </property>
+  <property name="cursor">
+   <cursorShape>ArrowCursor</cursorShape>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QTextEdit" name="inputAlphabetText">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>39</y>
+     <width>291</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The input alphabet of a finite automaton is the set of characters that the automaton is able to read and process as input.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each symbol by a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon, &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;as in the following format:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;A;B;C;D;E etc.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="startButton">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>40</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Starts evaluating the current set automata.&lt;br/&gt;&lt;br/&gt;Navigate the evaluation with &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Step&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Run To End&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; buttons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string>Start</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="exitButton">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>40</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="acceptDrops">
+    <bool>false</bool>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Exits the application&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Discards any preset automata information&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(217, 99, 99);</string>
+   </property>
+   <property name="text">
+    <string>Exit</string>
+   </property>
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>9</y>
+     <width>106</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Input Alphabet</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>259</y>
+     <width>143</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Transition Functions</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>222</x>
+     <y>259</y>
+     <width>111</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Jump Functions</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="machineStatesText">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>159</y>
+     <width>291</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Declares the states the automata transitions/jumps to and from based on functions.&lt;br/&gt;&lt;br/&gt;Divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon, &lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;final state, prepend it with a exclamation mark ( ! ),&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;starter state&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;prepend it with an at-sign ( @ )&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;br/&gt;&lt;br/&gt;@sta0;sta1;sta2;sta3;!sta4 etc.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_4">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>129</y>
+     <width>104</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Machine States</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>322</x>
+     <y>119</y>
+     <width>105</width>
+     <height>106</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="CharsContainer">
+    <item>
+     <layout class="QVBoxLayout" name="CharsDescriptionContainers">
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Automata</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Characteristics</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="DIARadioButton">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;D F A - Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Has only one possible state it can be at at the time. Every transition and jump function allows to shift only to one state.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>D F A</string>
+      </property>
+      <property name="checked">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QRadioButton" name="NIARadioButton">
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="toolTip">
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;N F A - Non-Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Can be in multiple states at a time. Any transition and jump function allows to shift into multiple states at once.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      </property>
+      <property name="text">
+       <string>N F A</string>
+      </property>
+      <property name="checked">
+       <bool>false</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTextEdit" name="inputStringText">
+   <property name="geometry">
+    <rect>
+     <x>312</x>
+     <y>39</y>
+     <width>291</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The input string is a sequence of characters that will be evaluated by the preset automata.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_7">
+   <property name="geometry">
+    <rect>
+     <x>312</x>
+     <y>9</y>
+     <width>106</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Input String</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_8">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>649</y>
+     <width>171</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Current Machine Status</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="statusText">
+   <property name="geometry">
+    <rect>
+     <x>12</x>
+     <y>679</y>
+     <width>291</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The current status, actions and exceptions of the preset automata.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Only includes basic information about what action has been taken, doesn't include details about said action.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;quot;FA succesfully transitioned/jumped&amp;quot;&lt;br/&gt;&amp;quot;FA finished evaluating&amp;quot;&lt;br/&gt;&amp;quot;FA cannot start; &amp;lt;info about an exception&amp;gt;&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="stepButton">
+   <property name="geometry">
+    <rect>
+     <x>640</x>
+     <y>110</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Moves the automata one step forward.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string>Step</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line">
+   <property name="geometry">
+    <rect>
+     <x>460</x>
+     <y>170</y>
+     <width>491</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_2">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>180</y>
+     <width>20</width>
+     <height>691</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="runToEndButton">
+   <property name="geometry">
+    <rect>
+     <x>760</x>
+     <y>110</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Runs all the steps of the evaulation until the end.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(22, 149, 19);</string>
+   </property>
+   <property name="text">
+    <string>Run To End</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="transitionFuncDeclare">
+   <property name="geometry">
+    <rect>
+     <x>13</x>
+     <y>290</y>
+     <width>201</width>
+     <height>329</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Transition functions dictate transitions between specific states based on currently read symbols in the input string.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Transition function, when called, checks if current read symbol matches the specified symbol in the function.&lt;br/&gt;If the symbols match, the transition is performed. &lt;br/&gt;If they don't, no transition is performed and stays on the current state.&lt;br/&gt;Either way, current symbol gets moved in the input string and evaluation continues.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each function by &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;writing each one on a new line,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;declare each function in the following format:&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;lt;name of initial state&amp;gt; - &amp;lt;read symbol&amp;gt; - &amp;lt;name of state to transition to&amp;gt;&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - sta1&lt;br/&gt;sta1 - B - sta2&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In case of transition to multiple states at once: &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;(NFA only)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Write names of target states into &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;parentheses,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - (sta1;sta2)&lt;br/&gt;sta1 - B - sta3&lt;br/&gt;sta2 - C - sta0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="jumpFuncDeclare">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>290</y>
+     <width>202</width>
+     <height>329</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Jump functions dictate jump similar to transition functions between specific states based on currently read symbols in the input string. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Jump function, when called, searches the rest of the input string for an instance of the specific symbol in the input string.&lt;br/&gt;If it finds one, it moves to that specific symbol in the input string, performs the transition from state to state and continues evaluating.&lt;br/&gt;If it doesnt find one, it doesn't perform the transition, stays on current state and moves to the next symbol in input string for next evaluation&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each function by &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;writing each one on a new line,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;declare each function in the following format:&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;lt;name of initial state&amp;gt; - &amp;lt;read symbol&amp;gt; - &amp;lt;name of state to transition to&amp;gt;&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - sta1&lt;br/&gt;sta1 - B - sta2&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In case of transition to multiple states at once: &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;(NFA only)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Write names of target states into &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;parentheses,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - (sta1;sta2)&lt;br/&gt;sta1 - B - sta3&lt;br/&gt;sta2 - C - sta0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>inputAlphabetText</tabstop>
+  <tabstop>DIARadioButton</tabstop>
+  <tabstop>NIARadioButton</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>exitButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
