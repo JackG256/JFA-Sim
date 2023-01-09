@@ -1,16 +1,17 @@
+import ctypes
 import sys
+
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QStyle
-import ctypes
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
-class mainAppWindow(QMainWindow, Ui_MainWindow):
+class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     def startAction(self):
         pass
@@ -46,6 +47,6 @@ class mainAppWindow(QMainWindow, Ui_MainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = mainAppWindow()
+    window = MainAppWindow()
     window.show()
     sys.exit(app.exec_())
