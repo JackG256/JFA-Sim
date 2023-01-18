@@ -1,4 +1,6 @@
-import customExceptions.InvalidAlphabetFormat
+from customExceptions import InvalidAlphabetFormatError
+from customExceptions import InvalidSymbolInAlphabetError
+
 
 def filterMachineAlphabet(unfiltered):
     unfiltered = unfiltered.split(";")
@@ -6,7 +8,11 @@ def filterMachineAlphabet(unfiltered):
 
     for symbol in unfiltered:
         if len(symbol) != 1:
-            raise customExceptions.InvalidAlphabetFormat
+            raise InvalidAlphabetFormatError()
 
-    for
+    for symbol in unfiltered:
+        if not symbol.isalpha():
+            raise InvalidSymbolInAlphabetError()
+
+
     return unfiltered

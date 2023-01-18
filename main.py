@@ -4,10 +4,10 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QDialog
+from PyQt5.QtWidgets import QApplication, QMainWindow
 
 import preRun
-import customExceptions
+from customExceptions import InvalidAlphabetFormatError
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
@@ -17,6 +17,7 @@ alphabet = ""
 inputString = ""
 machineStates = ""
 jTransitions = ""
+machineStarted = False
 
 
 class MainAppWindow(QMainWindow, Ui_MainWindow):
@@ -27,7 +28,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             inputString = self.inputStringText.toPlainText()
             machineStates = self.machineStatesText.toPlainText()
             jTransitions = self.jumpsDeclareText.toPlainText()
-        except invalid:
+        except InvalidAlphabetFormatError:
             pass
 
     @staticmethod
