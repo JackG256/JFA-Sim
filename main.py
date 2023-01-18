@@ -6,17 +6,13 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication, QMainWindow
 
+from customExceptions import *
 import preRun
-from customExceptions import InvalidAlphabetFormatError
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-alphabet = ""
-inputString = ""
-machineStates = ""
-jTransitions = ""
 machineStarted = False
 
 
@@ -25,11 +21,15 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     def startAction(self):
         try:
             alphabet = preRun.filterMachineAlphabet(self.inputAlphabetText.toPlainText())
-            inputString = self.inputStringText.toPlainText()
-            machineStates = self.machineStatesText.toPlainText()
-            jTransitions = self.jumpsDeclareText.toPlainText()
-        except InvalidAlphabetFormatError:
-            pass
+            inputString = preRun.filterInputString(self.inputStringText.toPlainText(), alphabet)
+            machineStates = preRun.filterMachineStates(self.machineStatesText.toPlainText())
+            jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), alphabet)
+            print(jTransitions)
+        except (EmptyFieldError, InvalidAlphabetFormatError, InvalidSymbolInAlphabetError,
+                InputSymbolNotInAlphabetError, StartStateNotFoundError, EndStateNotFoundError) as exc:
+            self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
+
+        self.statusText.setText("Passed!")
 
     @staticmethod
     def exitAction():
@@ -52,7 +52,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.setWindowTitle("JFA Simulator")
 
         # Set Custom icon to app title bar
-        self.setWindowIcon(QIcon("Image_Content\JFA_icon.png"))
+        self.setWindowIcon(QIcon("Image_Content/JFA_icon.png"))
 
         # Set custom icon to app in taskbar
         # This is a workaround I found on stackoverflow
