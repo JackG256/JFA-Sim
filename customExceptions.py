@@ -76,3 +76,29 @@ class EndStateNotFoundError(Exception):
                f"Machine would automatically refuse any input"
 
     pass
+
+
+class StateDoesNotExistError(Exception):
+    """A state provided in jump does not exist"""
+
+    def __init__(self, state, *args):
+        super().__init__(args)
+        self.state = state
+
+    def __str__(self):
+        return f"A state specified in transition function does not exist:  \'{self.state}\'<br>"
+
+    pass
+
+
+class SymbolDoesNotExistError(Exception):
+    """A symbol provided in jump does not exist"""
+
+    def __init__(self, symbol, *args):
+        super().__init__(args)
+        self.symbol = symbol
+
+    def __str__(self):
+        return f"A symbol specified in transition function does not exist:  \'{self.symbol}\'<br>"
+
+    pass
