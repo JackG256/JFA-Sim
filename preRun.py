@@ -15,12 +15,11 @@ def filterMachineAlphabet(unfiltered):
             unfiltered.remove(entry)
 
     # Check if alphabet is inputted one symbol at a time
+    # Check if all symbols are valid letters
     for symbol in unfiltered:
         if len(symbol) != 1:
             raise InvalidAlphabetFormatError(symbol)
 
-    # Check if all symbols are valid letters
-    for symbol in unfiltered:
         if not symbol.isalpha() and not symbol.isnumeric():
             raise InvalidSymbolInAlphabetError(symbol)
 
@@ -80,7 +79,8 @@ def filterMachineStates(unfiltered):
 
 
 def filterJumpTransitions(unfiltered, alphabet):
-    # Remove redundant spaces and split by new line
-    unfiltered.replace(" ", "")
-    jumpEntriesList = unfiltered.split('\n')
 
+    # Remove redundant whitespaces, split by new line and split each separate line by separator characters
+    filteredJumpEntriesList = []
+    for entry in unfiltered.replace(" ", "").split('\n'):
+        filteredJumpEntriesList.append(entry.split("-"))
