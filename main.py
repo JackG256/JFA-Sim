@@ -20,16 +20,46 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     def startAction(self):
         try:
+            # Get and filter inputs
             alphabet = preRun.filterMachineAlphabet(self.inputAlphabetText.toPlainText())
-            inputString = preRun.filterInputString(self.inputStringText.toPlainText(), alphabet)
-            machineStates = preRun.filterMachineStates(self.machineStatesText.toPlainText())
-            jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), alphabet)
-            print(jTransitions)
-        except (EmptyFieldError, InvalidAlphabetFormatError, InvalidSymbolInAlphabetError,
-                InputSymbolNotInAlphabetError, StartStateNotFoundError, EndStateNotFoundError) as exc:
-            self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
+            inputString, formattedInputDict = preRun.filterInputString(self.inputStringText.toPlainText(), alphabet)
 
-        self.statusText.setText("Passed!")
+            # Code to get information about shortened string, works with symbol key-value dictionary
+            # Get keys
+            keys = list(dict.fromkeys(inputString))
+            values = []
+            for key in keys:
+                # Get occurence values for each key
+                values.append(formattedInputDict[key])
+
+            formattedInputStrToPrint = ""
+            # For each key, put key in output string, and get occurence value based on index of same key
+            for key in keys:
+                formattedInputStrToPrint += f"// {key} -> {values[keys.index(key)]} "
+
+            # Final string detail
+            formattedInputStrToPrint += "//"
+
+            # Get and filter inputs
+            machineStates = preRun.filterMachineStates(self.machineStatesText.toPlainText())
+            jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), alphabet, machineStates)
+
+            # If all passed, ensure the user
+            self.statusText.setText("Passed!")
+
+            # Print formatted input string to text field
+            self.outputStringTextFormatted.setText(formattedInputStrToPrint)
+
+            # Debug print
+            print(f"\nSpecified alphabet: {alphabet}\nSpecified input str: {inputString}\nSpecified states:"
+                  f" {machineStates}\nSpecified jumps: {jTransitions}")
+
+        # Except branch to catch all custom exceptions and print them to status field
+        # Functions as feedback to user about incorrect input
+        except (EmptyFieldError, InvalidAlphabetFormatError, InvalidSymbolInAlphabetError,
+                InputSymbolNotInAlphabetError, StartStateNotFoundError, EndStateNotFoundError, StateDoesNotExistError,
+                SymbolDoesNotExistError) as exc:
+            self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
     @staticmethod
     def exitAction():
