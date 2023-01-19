@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>904</width>
-    <height>868</height>
+    <width>902</width>
+    <height>765</height>
    </rect>
   </property>
   <property name="cursor">
@@ -32,7 +32,7 @@
   <widget class="QPushButton" name="startButton">
    <property name="geometry">
     <rect>
-     <x>540</x>
+     <x>660</x>
      <y>30</y>
      <width>111</width>
      <height>61</height>
@@ -48,7 +48,7 @@
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>780</x>
      <y>30</y>
      <width>111</width>
      <height>61</height>
@@ -278,7 +278,7 @@
   <widget class="QPushButton" name="stepButton">
    <property name="geometry">
     <rect>
-     <x>540</x>
+     <x>660</x>
      <y>100</y>
      <width>111</width>
      <height>61</height>
@@ -296,7 +296,7 @@
     <rect>
      <x>370</x>
      <y>170</y>
-     <width>581</width>
+     <width>1401</width>
      <height>20</height>
     </rect>
    </property>
@@ -310,7 +310,7 @@
      <x>360</x>
      <y>180</y>
      <width>20</width>
-     <height>691</height>
+     <height>1871</height>
     </rect>
    </property>
    <property name="orientation">
@@ -320,7 +320,7 @@
   <widget class="QPushButton" name="runToEndButton">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>780</x>
      <y>100</y>
      <width>111</width>
      <height>61</height>
@@ -347,6 +347,37 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Dictates jumps and transitions between specific states based on currently read symbols in the input string.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Transition function, when called, checks the input string for the specified symbol in the function.&lt;br/&gt;If the specified symbol exists in the string, it jumps to it and the transition is performed. &lt;br/&gt;If they it's not found, no transition is performed, stays on the current state and the curently read symbol gets moved ahead.&lt;br/&gt;Either way, the evaluation continues.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each function by &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;writing each one on a new line,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;declare each function in the following format:&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;lt;name of initial state&amp;gt; - &amp;lt;read symbol&amp;gt; - &amp;lt;name of state to transition to&amp;gt;&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - sta1&lt;br/&gt;sta1 - B - sta2&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In case of transition to multiple states at once: &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;(NFA only)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Write names of target states into &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;parentheses,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - (sta1;sta2)&lt;br/&gt;sta1 - B - sta3&lt;br/&gt;sta2 - C - sta0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="outputStringTextFormatted">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>40</y>
+     <width>211</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The input string is a sequence of characters that will be evaluated by the preset automata.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_9">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>10</y>
+     <width>181</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Formatted Input String</string>
    </property>
   </widget>
  </widget>
