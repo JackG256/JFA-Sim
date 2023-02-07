@@ -8,12 +8,11 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from customExceptions import *
 import preRun
+import runLogicND
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
-
-machineStarted = False
 
 
 class MainAppWindow(QMainWindow, Ui_MainWindow):
@@ -21,12 +20,15 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     def startAction(self):
         try:
             # Get and filter inputs
-            alphabet = preRun.filterMachineAlphabet(self.inputAlphabetText.toPlainText())
-            inputString, formattedInputDict = preRun.filterInputString(self.inputStringText.toPlainText(), alphabet)
+            self.alphabet = preRun.filterMachineAlphabet(self.inputAlphabetText.toPlainText())
+            self.inputString, formattedInputDict = preRun.filterInputString(self.inputStringText.toPlainText(),
+                                                                            self.alphabet)
+            self.currentReadSymbol = self.inputString[0]
+            # self.inputString = self.inputString[1:]
 
             # Code to get information about shortened string, works with symbol key-value dictionary
             # Get keys
-            keys = list(dict.fromkeys(inputString))
+            keys = list(dict.fromkeys(self.inputString))
             values = []
             for key in keys:
                 # Get occurence values for each key
@@ -41,8 +43,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             formattedInputStrToPrint += "//"
 
             # Get and filter inputs
-            machineStates = preRun.filterMachineStates(self.machineStatesText.toPlainText())
-            jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), alphabet, machineStates)
+            self.machineStates, self.currentState = preRun.filterMachineStates(self.machineStatesText.toPlainText())
+            self.jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), self.alphabet,
+                                                             self.machineStates)
 
             # If all passed, ensure the user
             self.statusText.setText("Passed!")
@@ -51,8 +54,10 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             self.outputStringTextFormatted.setText(formattedInputStrToPrint)
 
             # Debug print
-            print(f"\nSpecified alphabet: {alphabet}\nSpecified input str: {inputString}\nSpecified states:"
-                  f" {machineStates}\nSpecified jumps: {jTransitions}")
+            print(f"\nSpecified alphabet: {self.alphabet}\nSpecified input str: {self.inputString}\nSpecified states:"
+                  f" {self.machineStates}\nSpecified jumps: {self.jTransitions}")
+
+            self.machineStarted = True
 
         # Except branch to catch all custom exceptions and print them to status field
         # Functions as feedback to user about incorrect input
@@ -65,12 +70,46 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     def exitAction():
         sys.exit(1)
 
+    def stepAction(self):
+        if self.machineStarted:
+            self.inputString, self.currentState = runLogicND.findAndRunJumpOneSide(self.jTransitions,
+                                                                                   self.currentReadSymbol,
+                                                                                   self.currentState,
+                                                                                   self.machineStates,
+                                                                                   self.inputString)
+
+            print(f"\nA jump has been invoked\nNew input string: {self.inputString}"
+                  f"\nNew current state: {self.currentState}")
+
+            if len(self.inputString) == 0:
+                if "!" + self.currentState in self.machineStates:
+                    print("END! ACCEPTED")
+                else:
+                    print("END! REFUSED")
+                self.machineStarted = False
+
+    def runToEndAction(self):
+        pass
+
     def __init__(self):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
+
+        self.machineStarted = False
+        self.startState = ""
+
+        self.alphabet = ""
+        self.inputString = ""
+        self.machineStates = ""
+        self.jTransitions = ""
+
+        self.currentReadSymbol = ""
+        self.currentState = ""
+
         self.exitButton.clicked.connect(self.exitAction)
         self.startButton.clicked.connect(self.startAction)
+        self.stepButton.clicked.connect(self.stepAction)
 
         # Set alternative style
         app.setStyle("fusion")

@@ -102,6 +102,9 @@ def filterMachineStates(unfiltered):
     hasStartState = False
     hasEndState = False
 
+    # Helping variables
+    startingState = ""
+
     # Split string by division symbol
     unfiltered = unfiltered.split(";")
 
@@ -119,8 +122,10 @@ def filterMachineStates(unfiltered):
     for entry in unfiltered:
         if not hasStartState and entry[0] == '@':
             hasStartState = True
+            startingState = entry.replace('@', '')
         elif not hasEndState and entry[0] == '!':
             hasEndState = True
+
 
     # Call exceptions based on flags
     if not hasStartState:
@@ -128,7 +133,7 @@ def filterMachineStates(unfiltered):
     if not hasEndState:
         raise EndStateNotFoundError()
 
-    return unfiltered
+    return unfiltered, startingState
 
 
 def filterJumpTransitions(unfiltered, alphabet, machineStates):
