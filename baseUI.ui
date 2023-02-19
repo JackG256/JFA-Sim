@@ -140,8 +140,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>240</x>
-     <y>290</y>
+     <x>230</x>
+     <y>510</y>
      <width>105</width>
      <height>106</height>
     </rect>
@@ -341,7 +341,7 @@
     <rect>
      <x>13</x>
      <y>290</y>
-     <width>201</width>
+     <width>191</width>
      <height>329</height>
     </rect>
    </property>
@@ -384,13 +384,31 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>160</y>
+     <y>350</y>
      <width>71</width>
      <height>31</height>
     </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>320</y>
+     <width>141</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Starting State</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
    <property name="geometry">
     <rect>
      <x>220</x>
@@ -401,68 +419,28 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Starting State</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="loadStatesButton">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>240</y>
-     <width>51</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Runs all the steps of the evaulation until the end.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">background-color: rgb(22, 149, 19);</string>
-   </property>
-   <property name="text">
-    <string>Load</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="endStateText">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>160</y>
-     <width>121</width>
-     <height>71</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Declares the states the automata transitions/jumps to and from based on functions.&lt;br/&gt;&lt;br/&gt;Divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon, &lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;final state, prepend it with a exclamation mark ( ! ),&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;starter state&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;prepend it with an at-sign ( @ )&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;@sta0;sta1;sta2;sta3;!sta4&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label_11">
-   <property name="geometry">
-    <rect>
-     <x>310</x>
-     <y>130</y>
-     <width>81</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>10</pointsize>
+     <pointsize>12</pointsize>
     </font>
    </property>
    <property name="text">
     <string>End States</string>
    </property>
   </widget>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>160</y>
+     <width>211</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="endStatesGrid"/>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>inputAlphabetText</tabstop>
   <tabstop>DIARadioButton</tabstop>
-  <tabstop>NIARadioButton</tabstop>
   <tabstop>startButton</tabstop>
   <tabstop>exitButton</tabstop>
  </tabstops>

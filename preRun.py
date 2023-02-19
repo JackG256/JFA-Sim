@@ -1,4 +1,5 @@
 from customExceptions import *
+from main import MainAppWindow
 
 
 def filterMachineAlphabet(unfiltered):
@@ -125,7 +126,6 @@ def filterMachineStates(unfiltered):
             startingState = entry.replace('@', '')
         elif not hasEndState and entry[0] == '!':
             hasEndState = True
-
 
     # Call exceptions based on flags
     if not hasStartState:

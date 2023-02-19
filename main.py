@@ -4,7 +4,7 @@ import sys
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow
+from PyQt5.QtWidgets import QApplication, QMainWindow, QCheckBox
 
 from customExceptions import *
 import preRun
@@ -37,7 +37,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             formattedInputStrToPrint = ""
             # For each key, put key in output string, and get occurence value based on index of same key
             for key in keys:
-                formattedInputStrToPrint += f"// {key} -> {values[keys.index(key)]} "
+                formattedInputStrToPrint += f"// {key} ^ {values[keys.index(key)]} "
 
             # Final string detail
             formattedInputStrToPrint += "//"
@@ -71,18 +71,52 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         sys.exit(1)
 
     def loadStatesAction(self):
-
+        # Pull inputted states from text box and split them into a list
         states = self.machineStatesText.toPlainText().split(";")
 
+        # Clear the selection combobox before assigning new values
         self.statesCombobox.clear()
 
+        # Clear the list of checkboxes
+        self.checkBoxList.clear()
+
+        # Loop to remove all checkbox widgets
+        for i in reversed(range(self.endStatesGrid.count())):
+            # Get widget by index
+            widget = self.endStatesGrid.itemAt(i).widget()
+            if widget is not None:
+                # Remove from layout
+                self.endStatesGrid.removeWidget(widget)
+                # Remove widget itself
+                widget.deleteLater()
+
+        # Default value assignment
         self.statesCombobox.addItem("No Selection")
 
+        # Failsafe if empty text box
         if len(states) == 1 and states[0] == '':
             return False
 
-        for state in states:
+        # Helping variables
+        num_cols = 3
+        row = 0
+        col = 0
+
+        # For each state in list
+        for i, state in enumerate(states):
+            # Add item to combobox
             self.statesCombobox.addItem(state)
+
+            # Create a checkbox widget and assign it to the layout of checkboxes
+            checkbox = QCheckBox(state)
+            self.endStatesGrid.addWidget(checkbox, row, col)
+
+            # Add instance of checkbox to global list
+            self.checkBoxList.append(checkbox)
+            col += 1
+            if col == num_cols:
+                col = 0
+                row += 1
 
     def stepAction(self):
         if self.machineStarted:
@@ -124,14 +158,18 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         self.currentReadSymbol = ""
         self.currentState = ""
+        self.checkBoxList = []
 
         self.formattedInputDict = []
 
         self.exitButton.clicked.connect(self.exitAction)
         self.startButton.clicked.connect(self.startAction)
         self.stepButton.clicked.connect(self.stepAction)
-        self.loadStatesButton.clicked.connect(self.loadStatesAction)
 
+        # Connect load states action on text changed flag
+        self.machineStatesText.textChanged.connect(self.loadStatesAction)
+
+        # Defulat value in selection box on run
         self.statesCombobox.addItem("No Selection")
 
         # Set alternative style
