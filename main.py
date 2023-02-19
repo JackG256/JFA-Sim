@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow
 
 from customExceptions import *
 import preRun
-import runLogicND
+import runLogicDET
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
@@ -21,8 +21,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         try:
             # Get and filter inputs
             self.alphabet = preRun.filterMachineAlphabet(self.inputAlphabetText.toPlainText())
-            self.inputString, formattedInputDict = preRun.filterInputString(self.inputStringText.toPlainText(),
-                                                                            self.alphabet)
+            self.inputString, self.formattedInputDict = preRun.filterInputString(self.inputStringText.toPlainText(),
+                                                                                 self.alphabet)
             self.currentReadSymbol = self.inputString[0]
             # self.inputString = self.inputString[1:]
 
@@ -32,7 +32,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             values = []
             for key in keys:
                 # Get occurence values for each key
-                values.append(formattedInputDict[key])
+                values.append(self.formattedInputDict[key])
 
             formattedInputStrToPrint = ""
             # For each key, put key in output string, and get occurence value based on index of same key
@@ -70,16 +70,34 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     def exitAction():
         sys.exit(1)
 
+    def loadStatesAction(self):
+
+        states = self.machineStatesText.toPlainText().split(";")
+
+        self.statesCombobox.clear()
+
+        self.statesCombobox.addItem("No Selection")
+
+        if len(states) == 1 and states[0] == '':
+            return False
+
+        for state in states:
+            self.statesCombobox.addItem(state)
+
     def stepAction(self):
         if self.machineStarted:
-            self.inputString, self.currentState = runLogicND.findAndRunJumpOneSide(self.jTransitions,
-                                                                                   self.currentReadSymbol,
-                                                                                   self.currentState,
-                                                                                   self.machineStates,
-                                                                                   self.inputString)
+            self.formattedInputDict, self.inputString, self.currentState = runLogicDET.findAndRunJumpOneSide(
+                self.jTransitions,
+                self.currentState,
+                self.machineStates,
+                self.formattedInputDict,
+                self.inputString)
 
-            print(f"\nA jump has been invoked\nNew input string: {self.inputString}"
-                  f"\nNew current state: {self.currentState}")
+            print(f"\nA jump has been invoked\nNew formatted string:")
+            for key in self.formattedInputDict:
+                print(f"Key: '{key}': {self.formattedInputDict[key]}")
+
+            print(f"\nNew input string: {self.inputString}" f"\nNew current state: {self.currentState}")
 
             if len(self.inputString) == 0:
                 if "!" + self.currentState in self.machineStates:
@@ -107,9 +125,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.currentReadSymbol = ""
         self.currentState = ""
 
+        self.formattedInputDict = []
+
         self.exitButton.clicked.connect(self.exitAction)
         self.startButton.clicked.connect(self.startAction)
         self.stepButton.clicked.connect(self.stepAction)
+        self.loadStatesButton.clicked.connect(self.loadStatesAction)
+
+        self.statesCombobox.addItem("No Selection")
 
         # Set alternative style
         app.setStyle("fusion")

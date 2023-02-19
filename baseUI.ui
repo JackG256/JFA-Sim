@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>902</width>
+    <width>977</width>
     <height>765</height>
    </rect>
   </property>
@@ -32,7 +32,7 @@
   <widget class="QPushButton" name="startButton">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>690</x>
      <y>30</y>
      <width>111</width>
      <height>61</height>
@@ -48,7 +48,7 @@
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
-     <x>780</x>
+     <x>810</x>
      <y>30</y>
      <width>111</width>
      <height>61</height>
@@ -140,8 +140,8 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>230</x>
-     <y>130</y>
+     <x>240</x>
+     <y>290</y>
      <width>105</width>
      <height>106</height>
     </rect>
@@ -186,7 +186,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;D F A - Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Has only one possible state it can be at at the time. Every transition and jump function allows to shift only to one state.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
-       <string>D F A</string>
+       <string>D J F A</string>
       </property>
       <property name="checked">
        <bool>true</bool>
@@ -204,7 +204,7 @@
        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;N F A - Non-Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Can be in multiple states at a time. Any transition and jump function allows to shift into multiple states at once.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="text">
-       <string>N F A</string>
+       <string>N J F A</string>
       </property>
       <property name="checked">
        <bool>false</bool>
@@ -278,7 +278,7 @@
   <widget class="QPushButton" name="stepButton">
    <property name="geometry">
     <rect>
-     <x>660</x>
+     <x>690</x>
      <y>100</y>
      <width>111</width>
      <height>61</height>
@@ -294,7 +294,7 @@
   <widget class="Line" name="line">
    <property name="geometry">
     <rect>
-     <x>370</x>
+     <x>450</x>
      <y>170</y>
      <width>1401</width>
      <height>20</height>
@@ -307,7 +307,7 @@
   <widget class="Line" name="line_2">
    <property name="geometry">
     <rect>
-     <x>360</x>
+     <x>440</x>
      <y>180</y>
      <width>20</width>
      <height>1871</height>
@@ -320,7 +320,7 @@
   <widget class="QPushButton" name="runToEndButton">
    <property name="geometry">
     <rect>
-     <x>780</x>
+     <x>810</x>
      <y>100</y>
      <width>111</width>
      <height>61</height>
@@ -378,6 +378,84 @@
    </property>
    <property name="text">
     <string>Formatted Input String</string>
+   </property>
+  </widget>
+  <widget class="QComboBox" name="statesCombobox">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>160</y>
+     <width>71</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_10">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>130</y>
+     <width>81</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Starting State</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loadStatesButton">
+   <property name="geometry">
+    <rect>
+     <x>150</x>
+     <y>240</y>
+     <width>51</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Runs all the steps of the evaulation until the end.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(22, 149, 19);</string>
+   </property>
+   <property name="text">
+    <string>Load</string>
+   </property>
+  </widget>
+  <widget class="QTextEdit" name="endStateText">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>160</y>
+     <width>121</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Declares the states the automata transitions/jumps to and from based on functions.&lt;br/&gt;&lt;br/&gt;Divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon, &lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;final state, prepend it with a exclamation mark ( ! ),&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;starter state&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;prepend it with an at-sign ( @ )&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;@sta0;sta1;sta2;sta3;!sta4&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_11">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>130</y>
+     <width>81</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>End States</string>
    </property>
   </widget>
  </widget>
