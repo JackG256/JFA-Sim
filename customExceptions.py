@@ -6,7 +6,7 @@ class InvalidAlphabetFormatError(Exception):
         self.symbolset = symbolset
 
     def __str__(self):
-        return f"Inputted alphabet is written in an invalid format:\n" \
+        return f"Input alphabet is written in an invalid format:\n" \
                f"\'{self.symbolset}\' is not a valid symbol"
 
     pass
@@ -47,7 +47,7 @@ class InputSymbolNotInAlphabetError(Exception):
         self.alphabet = alphabet
 
     def __str__(self):
-        return f"\'{self.symbol}\' is not a included in provided alphabet:<br>" \
+        return f"\'{self.symbol}\' is not included in provided alphabet:<br>" \
                f"{self.alphabet}"
 
     pass
@@ -60,7 +60,7 @@ class StartStateNotFoundError(Exception):
         super().__init__(args)
 
     def __str__(self):
-        return f"A start state was not provided in \'Machine states field\'"
+        return f"A start state was not provided in \'Start State Combobox\'"
 
     pass
 
@@ -72,7 +72,7 @@ class EndStateNotFoundError(Exception):
         super().__init__(args)
 
     def __str__(self):
-        return f"An end state was not provided in \'Machine states field\'<br>" \
+        return f"An end state was not provided in \'End States Selection\'<br>" \
                f"Machine would automatically refuse any input"
 
     pass
