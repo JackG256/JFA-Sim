@@ -42,20 +42,34 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Final string detail
             formattedInputStrToPrint += "//"
 
+            # Get currently selected start and end states
+            tmp = self.statesCombobox.currentText()
+            if tmp != "No Selection":
+                self.startState = tmp
+
+            self.endStates = [checkbox.text() for checkbox in self.checkBoxList if checkbox.isChecked()]
+
+
             # Get and filter inputs
-            self.machineStates, self.currentState = preRun.filterMachineStates(self.machineStatesText.toPlainText())
-            self.jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), self.alphabet,
+            self.machineStates, self.currentState = preRun.filterMachineStates(self.machineStatesText.toPlainText(),
+                                                                               self.startState,
+                                                                               self.endStates)
+
+            self.jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(),
+                                                             self.alphabet,
                                                              self.machineStates)
 
             # If all passed, ensure the user
-            self.statusText.setText("Passed!")
+            self.statusText.setText("Passed!\n"
+                                    "Machine has been loaded!")
 
             # Print formatted input string to text field
             self.outputStringTextFormatted.setText(formattedInputStrToPrint)
 
             # Debug print
             print(f"\nSpecified alphabet: {self.alphabet}\nSpecified input str: {self.inputString}\nSpecified states:"
-                  f" {self.machineStates}\nSpecified jumps: {self.jTransitions}")
+                  f" {self.machineStates}\nSpecified starting state: {self.startState}\n"
+                  f"Specified end states: {self.endStates}\nSpecified jumps: {self.jTransitions}")
 
             self.machineStarted = True
 
@@ -72,7 +86,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     def loadStatesAction(self):
         # Pull inputted states from text box and split them into a list
-        states = self.machineStatesText.toPlainText().split(";")
+
+        states = self.machineStatesText.toPlainText().replace('\n', '').split(";")
 
         # Clear the selection combobox before assigning new values
         self.statesCombobox.clear()
@@ -98,12 +113,15 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             return False
 
         # Helping variables
-        num_cols = 3
+        num_cols = 4
         row = 0
         col = 0
 
         # For each state in list
         for i, state in enumerate(states):
+            if str(state) == "":
+                continue
+
             # Add item to combobox
             self.statesCombobox.addItem(state)
 
@@ -120,12 +138,15 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     def stepAction(self):
         if self.machineStarted:
-            self.formattedInputDict, self.inputString, self.currentState = runLogicDET.findAndRunJumpOneSide(
+            self.formattedInputDict, self.inputString, self.currentState, statePrev = runLogicDET.findAndRunJumpOneSide(
                 self.jTransitions,
                 self.currentState,
                 self.machineStates,
                 self.formattedInputDict,
                 self.inputString)
+
+            self.statusText.setText(f"A jump has been invoked!\n{statePrev[0]} -> {self.currentState}"
+                                    f" via {statePrev[1]}")
 
             print(f"\nA jump has been invoked\nNew formatted string:")
             for key in self.formattedInputDict:
@@ -134,14 +155,20 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             print(f"\nNew input string: {self.inputString}" f"\nNew current state: {self.currentState}")
 
             if len(self.inputString) == 0:
-                if "!" + self.currentState in self.machineStates:
+                if self.currentState in self.endStates:
                     print("END! ACCEPTED")
+                    self.statusText.setText(f"<b>Machine ACCEPTED</b><br>"
+                                            f"A jump has been invoked!<br>{statePrev[0]} -> {self.currentState}"
+                                            f" via {statePrev[1]}")
                 else:
-                    print("END! REFUSED")
+                    self.statusText.setText(f"<b>Machine REFUSED</b><br>"
+                                            f"A jump has been invoked!<br>{statePrev[0]} -> {self.currentState}"
+                                            f" via {statePrev[1]}")
                 self.machineStarted = False
 
     def runToEndAction(self):
-        pass
+        while self.machineStarted:
+            self.stepAction()
 
     def __init__(self):
         QMainWindow.__init__(self)
@@ -150,6 +177,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         self.machineStarted = False
         self.startState = ""
+        self.endStates = []
 
         self.alphabet = ""
         self.inputString = ""
@@ -165,6 +193,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.exitButton.clicked.connect(self.exitAction)
         self.startButton.clicked.connect(self.startAction)
         self.stepButton.clicked.connect(self.stepAction)
+        self.runToEndButton.clicked.connect(self.runToEndAction)
 
         # Connect load states action on text changed flag
         self.machineStatesText.textChanged.connect(self.loadStatesAction)
