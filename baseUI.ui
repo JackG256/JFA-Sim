@@ -28,6 +28,12 @@
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The input alphabet of a finite automaton is the set of characters that the automaton is able to read and process as input.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Use only symbols of latin alphabet and numbers.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each symbol by a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon, &lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;as in the following format:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;A;B;C;D;E etc.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="autoFormatting">
+    <set>QTextEdit::AutoNone</set>
+   </property>
+   <property name="tabChangesFocus">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QPushButton" name="startButton">
    <property name="geometry">
@@ -117,6 +123,9 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Declares the states the automata transitions/jumps to and from based on functions.&lt;br/&gt;&lt;br/&gt;Divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon, &lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;final state, prepend it with a exclamation mark ( ! ),&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;to mark a state as a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;starter state&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;prepend it with an at-sign ( @ )&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;@sta0;sta1;sta2;sta3;!sta4&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="tabChangesFocus">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_4">
@@ -218,12 +227,15 @@
     <rect>
      <x>210</x>
      <y>40</y>
-     <width>211</width>
+     <width>221</width>
      <height>71</height>
     </rect>
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The input string is a sequence of characters that will be evaluated by the preset automata.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="tabChangesFocus">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="label_7">
@@ -273,6 +285,9 @@
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The current status, actions and exceptions of the preset automata.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Only includes basic information about what action has been taken, doesn't include details about said action.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;quot;FA succesfully transitioned/jumped&amp;quot;&lt;br/&gt;&amp;quot;FA finished evaluating&amp;quot;&lt;br/&gt;&amp;quot;FA cannot start; &amp;lt;info about an exception&amp;gt;&amp;quot;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QPushButton" name="stepButton">
@@ -348,24 +363,33 @@
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Dictates jumps and transitions between specific states based on currently read symbols in the input string.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Transition function, when called, checks the input string for the specified symbol in the function.&lt;br/&gt;If the specified symbol exists in the string, it jumps to it and the transition is performed. &lt;br/&gt;If they it's not found, no transition is performed, stays on the current state and the curently read symbol gets moved ahead.&lt;br/&gt;Either way, the evaluation continues.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each function by &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;writing each one on a new line,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;declare each function in the following format:&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;lt;name of initial state&amp;gt; - &amp;lt;read symbol&amp;gt; - &amp;lt;name of state to transition to&amp;gt;&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - sta1&lt;br/&gt;sta1 - B - sta2&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In case of transition to multiple states at once: &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;(NFA only)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Write names of target states into &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;parentheses,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - (sta1;sta2)&lt;br/&gt;sta1 - B - sta3&lt;br/&gt;sta2 - C - sta0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="tabChangesFocus">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QTextEdit" name="outputStringTextFormatted">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>440</x>
      <y>40</y>
-     <width>211</width>
+     <width>201</width>
      <height>71</height>
     </rect>
    </property>
    <property name="toolTip">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The input string is a sequence of characters that will be evaluated by the preset automata.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
+   <property name="tabChangesFocus">
+    <bool>true</bool>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
+   </property>
   </widget>
   <widget class="QLabel" name="label_9">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>440</x>
      <y>10</y>
      <width>181</width>
      <height>19</height>
@@ -429,9 +453,9 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>210</x>
      <y>160</y>
-     <width>211</width>
+     <width>221</width>
      <height>71</height>
     </rect>
    </property>
@@ -440,9 +464,18 @@
  </widget>
  <tabstops>
   <tabstop>inputAlphabetText</tabstop>
-  <tabstop>DIARadioButton</tabstop>
+  <tabstop>inputStringText</tabstop>
+  <tabstop>machineStatesText</tabstop>
+  <tabstop>jumpsDeclareText</tabstop>
   <tabstop>startButton</tabstop>
+  <tabstop>stepButton</tabstop>
+  <tabstop>runToEndButton</tabstop>
   <tabstop>exitButton</tabstop>
+  <tabstop>statusText</tabstop>
+  <tabstop>DIARadioButton</tabstop>
+  <tabstop>outputStringTextFormatted</tabstop>
+  <tabstop>statesCombobox</tabstop>
+  <tabstop>NIARadioButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>
