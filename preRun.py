@@ -82,7 +82,7 @@ def filterInputString(unfiltered, alphabet):
     return unfiltered, formattedDict
 
 
-def filterMachineStates(unfiltered):
+def filterMachineStates(unfiltered, startMarked, endMarked):
     """
     Filtering function that takes input from 'Machine States field'
     Input is filtered into a list and ran through a few test checks for validity and consistency
@@ -92,6 +92,9 @@ def filterMachineStates(unfiltered):
     hasStartState: Used to check if input contains marked starting state
     hasEndState: Used to check if input contains marked end state
 
+    :param startMarked: An instance of selected state from 'Starting state combobox', if empty, exception is called
+    :param endMarked:  A list of selected checkbox instances generated from provided machine states, has to have
+                       at least 1 value
     :param unfiltered: string value from input field
     :exception EmptyFieldError: Custom exception, raised when input field is empty, takes string name of field as input
     :exception StartStateNotFoundError: Custom exception, raised when machine states do not contain starting state
@@ -113,7 +116,7 @@ def filterMachineStates(unfiltered):
     if len(unfiltered) == 1 and unfiltered[0] == '':
         raise EmptyFieldError("Machine states field")
 
-    # Failsafe to remove last empty field if user ended string with ';'
+    # Failsafe to remove all empty fields'
     for entry in unfiltered:
         if len(entry) == 0:
             unfiltered.remove(entry)
@@ -121,10 +124,10 @@ def filterMachineStates(unfiltered):
     # Go through entries and check for start and end fields
     # Need at least one of each
     for entry in unfiltered:
-        if not hasStartState and entry[0] == '@':
+        if not hasStartState and entry == startMarked:
             hasStartState = True
-            startingState = entry.replace('@', '')
-        elif not hasEndState and entry[0] == '!':
+            startingState = startMarked
+        elif not hasEndState and entry in endMarked:
             hasEndState = True
 
     # Call exceptions based on flags
