@@ -12,6 +12,7 @@ def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, 
     if state not in machineStates and "!" + state not in machineStates:
         raise RuntimeError
 
+    previousInfo = [listOfEndpoints[0][0], listOfEndpoints[0][1]]
     currentState = listOfEndpoints[0][2]
     currentReadSymbol = listOfEndpoints[0][1]
 
@@ -29,7 +30,7 @@ def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, 
         if symbol == currentReadSymbol:
             symbolReached = True
 
-    return inputDict, outputString, currentState
+    return inputDict, outputString, currentState, previousInfo
 
 
 def findAndRunJumpBothSides(jTransitions, currentState, machineStates, inputDict, inputString):
