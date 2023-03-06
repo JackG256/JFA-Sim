@@ -72,3 +72,15 @@ def findAndRunJumpBothSides(jTransitions, currentState, machineStates, inputDict
     return inputDict, outputString, currentState
 
 
+def findNextJumps(jTransitions, currentState, inputString):
+    output = ""
+    maxText = 5
+
+    for entry in jTransitions:
+        if entry[0] == currentState and entry[1] in inputString:
+            output += f"{entry[0]} -> {entry[2]} ( {entry[1]} )\n"
+            maxText-=1
+        if not maxText:
+            break
+
+    return output

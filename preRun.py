@@ -127,7 +127,7 @@ def filterMachineStates(unfiltered, startMarked, endMarked):
         if not hasStartState and entry == startMarked:
             hasStartState = True
             startingState = startMarked
-        elif not hasEndState and entry in endMarked:
+        if not hasEndState and entry in endMarked:
             hasEndState = True
 
     # Call exceptions based on flags

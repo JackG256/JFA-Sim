@@ -3,12 +3,13 @@ import sys
 
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QApplication, QMainWindow, QCheckBox
+from PyQt5.QtGui import QIcon, QFont
+from PyQt5.QtWidgets import QApplication, QMainWindow, QCheckBox, QLabel, QVBoxLayout, QWidget
 
 from customExceptions import *
 import preRun
 import runLogicDET
+import assistFunctions
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
@@ -49,7 +50,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
             self.endStates = [checkbox.text() for checkbox in self.checkBoxList if checkbox.isChecked()]
 
-
             # Get and filter inputs
             self.machineStates, self.currentState = preRun.filterMachineStates(self.machineStatesText.toPlainText(),
                                                                                self.startState,
@@ -72,6 +72,57 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                   f"Specified end states: {self.endStates}\nSpecified jumps: {self.jTransitions}")
 
             self.machineStarted = True
+
+            # Loop to clear and remove all sublayouts in the instancesGrid layout
+            while self.instancesGrid.count():
+                # Get and check if item is a widget, if yes, delete it
+                item = self.instancesGrid.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.deleteLater()
+                else:
+                    # Get and check if item is a layout, if yes, remove all items from it
+                    sublayout = item.layout()
+                    if sublayout is not None:
+                        while sublayout.count():
+                            subitem = sublayout.takeAt(0)
+                            subwidget = subitem.widget()
+                            if subwidget is not None:
+                                subwidget.deleteLater()
+
+            # Generate labels for an instance of JFA
+            self.labelString = QLabel(''.join(self.inputString))
+            self.labelState = QLabel(f"Current state {self.startState}")
+
+            self.labelJumps = QLabel(str(runLogicDET.findNextJumps(self.jTransitions,
+                                                                   self.currentState,
+                                                                   self.inputString)))
+
+            self.labelString.setFont(QFont("Arial", 14, QFont.Bold))
+            self.labelString.setAlignment(Qt.AlignCenter)
+            self.labelString.setFixedSize(158, 20)
+
+            self.labelState.setFont(QFont("Arial", 10, QFont.Bold))
+            self.labelState.setAlignment(Qt.AlignCenter)
+            self.labelState.setFixedSize(158, 17)
+
+            self.labelJumps.setFont(QFont("Arial", 12, QFont.Bold))
+            self.labelJumps.setAlignment(Qt.AlignCenter)
+            self.labelJumps.setFixedSize(158, 134)
+
+            # Create a layout object containing labels
+            layout = QVBoxLayout()
+            layout.addWidget(self.labelString)
+            layout.addWidget(self.labelState)
+            layout.addWidget(self.labelJumpsText)
+            layout.addWidget(self.labelJumps)
+
+            # Assign the layout object to a layout widget
+            layoutWidget = QWidget()
+            layoutWidget.setFixedSize(158, 201)
+            layoutWidget.setLayout(layout)
+
+            self.instancesGrid.addWidget(layoutWidget)
 
         # Except branch to catch all custom exceptions and print them to status field
         # Functions as feedback to user about incorrect input
@@ -183,6 +234,15 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.inputString = ""
         self.machineStates = ""
         self.jTransitions = ""
+
+        self.labelString = ""
+        self.labelState = ""
+        self.labelJumpsText = QLabel("Possible jumps\nfrom state:\n")
+        self.labelJumps = ""
+
+        self.labelJumpsText.setFont(QFont("Arial", 10, QFont.Bold))
+        self.labelJumpsText.setAlignment(Qt.AlignCenter)
+        self.labelJumpsText.setFixedSize(158, 30)
 
         self.currentReadSymbol = ""
         self.currentState = ""
