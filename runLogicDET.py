@@ -1,3 +1,6 @@
+from customExceptions import NoJumpToPerform
+
+
 def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, inputString):
     listOfEndpoints = []
 
@@ -6,10 +9,10 @@ def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, 
             listOfEndpoints.append(entry)
 
     if len(listOfEndpoints) != 1:
-        raise RuntimeError
+        raise NoJumpToPerform(currentState)
 
     state = listOfEndpoints[0][2]
-    if state not in machineStates and "!" + state not in machineStates:
+    if state not in machineStates:
         raise RuntimeError
 
     previousInfo = [listOfEndpoints[0][0], listOfEndpoints[0][1]]
@@ -43,13 +46,13 @@ def findAndRunJumpBothSides(jTransitions, currentState, machineStates, inputDict
             listOfEndpoints.append(entry)
 
     if len(listOfEndpoints) != 1:
-        raise RuntimeError
+        raise NoJumpToPerform(currentState)
 
     if len(usedSymbol) > 1:
         raise RuntimeError
 
     state = listOfEndpoints[0][2]
-    if state not in machineStates and "!" + state not in machineStates:
+    if state not in machineStates:
         raise RuntimeError
 
     currentState = listOfEndpoints[0][2]
@@ -79,7 +82,7 @@ def findNextJumps(jTransitions, currentState, inputString):
     for entry in jTransitions:
         if entry[0] == currentState and entry[1] in inputString:
             output += f"{entry[0]} -> {entry[2]} ( {entry[1]} )\n"
-            maxText-=1
+            maxText -= 1
         if not maxText:
             break
 

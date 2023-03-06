@@ -102,3 +102,16 @@ class SymbolDoesNotExistError(Exception):
         return f"A symbol specified in transition function does not exist:  \'{self.symbol}\'<br>"
 
     pass
+
+
+class NoJumpToPerform(Exception):
+    """Provided state has no jump to perform"""
+
+    def __init__(self, state, *args):
+        super().__init__(args)
+        self.state = state
+
+    def __str__(self):
+        return f"Current machine state has no jump to perform: '{self.state}'"
+
+    pass

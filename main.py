@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QCheckBox, QLabel, QVBoxL
 from customExceptions import *
 import preRun
 import runLogicDET
-import assistFunctions
+# import assistFunctions
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
@@ -137,7 +137,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     def loadStatesAction(self):
         # Pull inputted states from text box and split them into a list
-
         states = self.machineStatesText.toPlainText().replace('\n', '').split(";")
 
         # Clear the selection combobox before assigning new values
@@ -189,19 +188,24 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     def stepAction(self):
         if self.machineStarted:
-            self.formattedInputDict, self.inputString, self.currentState, statePrev = runLogicDET.findAndRunJumpOneSide(
-                self.jTransitions,
-                self.currentState,
-                self.machineStates,
-                self.formattedInputDict,
-                self.inputString)
+            try:
+                self.formattedInputDict, self.inputString, self.currentState, self.prevState = runLogicDET.findAndRunJumpOneSide(
+                    self.jTransitions,
+                    self.currentState,
+                    self.machineStates,
+                    self.formattedInputDict,
+                    self.inputString)
 
-            self.statusText.setText(f"A jump has been invoked!\n{statePrev[0]} -> {self.currentState}"
-                                    f" via {statePrev[1]}")
+                self.statusText.setText(f"A jump has been performed!\n{self.prevState[0]} -> {self.currentState}"
+                                        f" via reading {self.prevState[1]}")
 
-            print(f"\nA jump has been invoked\nNew formatted string:")
-            for key in self.formattedInputDict:
-                print(f"Key: '{key}': {self.formattedInputDict[key]}")
+                print(f"\nA jump has been performed\nNew formatted string:")
+
+                for key in self.formattedInputDict:
+                    print(f"Key: '{key}': {self.formattedInputDict[key]}")
+
+            except NoJumpToPerform as exc:
+                self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
             print(f"\nNew input string: {self.inputString}" f"\nNew current state: {self.currentState}")
 
@@ -209,12 +213,12 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 if self.currentState in self.endStates:
                     print("END! ACCEPTED")
                     self.statusText.setText(f"<b>Machine ACCEPTED</b><br>"
-                                            f"A jump has been invoked!<br>{statePrev[0]} -> {self.currentState}"
-                                            f" via {statePrev[1]}")
+                                            f"A jump has been performed!<br>{self.prevState[0]} -> {self.currentState}"
+                                            f" via reading {self.prevState[1]}")
                 else:
                     self.statusText.setText(f"<b>Machine REFUSED</b><br>"
-                                            f"A jump has been invoked!<br>{statePrev[0]} -> {self.currentState}"
-                                            f" via {statePrev[1]}")
+                                            f"A jump has been performed!<br>{self.prevState[0]} -> {self.currentState}"
+                                            f" via reading {self.prevState[1]}")
                 self.machineStarted = False
 
     def runToEndAction(self):
@@ -246,6 +250,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         self.currentReadSymbol = ""
         self.currentState = ""
+        self.prevState = ""
         self.checkBoxList = []
 
         self.formattedInputDict = []
