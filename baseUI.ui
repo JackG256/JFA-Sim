@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>977</width>
+    <width>1006</width>
     <height>765</height>
    </rect>
   </property>
@@ -43,7 +43,7 @@
   <widget class="QPushButton" name="startButton">
    <property name="geometry">
     <rect>
-     <x>690</x>
+     <x>650</x>
      <y>30</y>
      <width>111</width>
      <height>61</height>
@@ -59,7 +59,7 @@
   <widget class="QPushButton" name="exitButton">
    <property name="geometry">
     <rect>
-     <x>810</x>
+     <x>770</x>
      <y>30</y>
      <width>111</width>
      <height>61</height>
@@ -103,7 +103,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>260</y>
+     <y>120</y>
      <width>131</width>
      <height>19</height>
     </rect>
@@ -120,10 +120,10 @@
   <widget class="QTextEdit" name="machineStatesText">
    <property name="geometry">
     <rect>
-     <x>12</x>
-     <y>159</y>
+     <x>10</x>
+     <y>369</y>
      <width>191</width>
-     <height>71</height>
+     <height>171</height>
     </rect>
    </property>
    <property name="font">
@@ -141,8 +141,8 @@
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
-     <x>12</x>
-     <y>129</y>
+     <x>10</x>
+     <y>340</y>
      <width>104</width>
      <height>19</height>
     </rect>
@@ -160,9 +160,9 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>340</y>
-     <width>105</width>
-     <height>106</height>
+     <y>160</y>
+     <width>211</width>
+     <height>61</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="CharsContainer">
@@ -176,7 +176,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Automata</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Automata&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -188,47 +188,11 @@
          </font>
         </property>
         <property name="text">
-         <string>Characteristics</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Characteristics&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
      </layout>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="DIARadioButton">
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;D F A - Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Has only one possible state it can be at at the time. Every transition and jump function allows to shift only to one state.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>D J F A</string>
-      </property>
-      <property name="checked">
-       <bool>true</bool>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QRadioButton" name="NIARadioButton">
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="toolTip">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;N F A - Non-Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Can be in multiple states at a time. Any transition and jump function allows to shift into multiple states at once.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="text">
-       <string>N J F A</string>
-      </property>
-      <property name="checked">
-       <bool>false</bool>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>
@@ -275,7 +239,7 @@
    <property name="geometry">
     <rect>
      <x>12</x>
-     <y>540</y>
+     <y>550</y>
      <width>171</width>
      <height>19</height>
     </rect>
@@ -293,9 +257,9 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>570</y>
+     <y>580</y>
      <width>421</width>
-     <height>181</height>
+     <height>171</height>
     </rect>
    </property>
    <property name="font">
@@ -313,7 +277,7 @@
   <widget class="QPushButton" name="stepButton">
    <property name="geometry">
     <rect>
-     <x>690</x>
+     <x>650</x>
      <y>100</y>
      <width>111</width>
      <height>61</height>
@@ -355,7 +319,7 @@
   <widget class="QPushButton" name="runToEndButton">
    <property name="geometry">
     <rect>
-     <x>810</x>
+     <x>770</x>
      <y>100</y>
      <width>111</width>
      <height>61</height>
@@ -374,10 +338,10 @@
   <widget class="QTextEdit" name="jumpsDeclareText">
    <property name="geometry">
     <rect>
-     <x>13</x>
-     <y>290</y>
+     <x>10</x>
+     <y>150</y>
      <width>191</width>
-     <height>211</height>
+     <height>181</height>
     </rect>
    </property>
    <property name="font">
@@ -440,7 +404,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>290</y>
+     <y>390</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -450,7 +414,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>260</y>
+     <y>360</y>
      <width>141</width>
      <height>19</height>
     </rect>
@@ -468,7 +432,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>130</y>
+     <y>430</y>
      <width>81</width>
      <height>19</height>
     </rect>
@@ -485,102 +449,310 @@
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>210</x>
-     <y>160</y>
-     <width>221</width>
+     <x>220</x>
+     <y>460</y>
+     <width>211</width>
      <height>71</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="endStatesGrid"/>
-  </widget>
-  <widget class="QWidget" name="verticalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>420</y>
-     <width>160</width>
-     <height>101</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="label_2">
-      <property name="font">
-       <font>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; color:#ff0000;&quot;&gt;A&lt;/span&gt;B&lt;span style=&quot; text-decoration: line-through;&quot;&gt;C&lt;/span&gt;D&lt;span style=&quot; text-decoration: underline;&quot;&gt;E&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-      <property name="textFormat">
-       <enum>Qt::RichText</enum>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_12">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;State:  Q0&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_13">
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Possible jumps&lt;br/&gt;from state:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLabel" name="label_14">
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-        <weight>75</weight>
-        <bold>true</bold>
-       </font>
-      </property>
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Q0 -&amp;gt; Q1 (E)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget_2">
    <property name="geometry">
     <rect>
      <x>460</x>
      <y>190</y>
-     <width>511</width>
+     <width>541</width>
      <height>571</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="instancesGrid"/>
   </widget>
+  <widget class="QGroupBox" name="DeterminismBox">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>230</y>
+     <width>91</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Determinism</string>
+   </property>
+   <widget class="QRadioButton" name="DJFARadioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>93</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;D F A - Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Has only one possible state it can be at at the time. Every transition and jump function allows to shift only to one state.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>D J F A</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="NJFARadioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>93</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;N F A - Non-Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Can be in multiple states at a time. Any transition and jump function allows to shift into multiple states at once.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>N J F A</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="EvaluationBox">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>230</y>
+     <width>111</width>
+     <height>81</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>Evaluation</string>
+   </property>
+   <widget class="QRadioButton" name="OneWayRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>98</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;D F A - Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Has only one possible state it can be at at the time. Every transition and jump function allows to shift only to one state.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>One-Way</string>
+    </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
+    <property name="autoExclusive">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="BothWayRadioButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>50</y>
+      <width>98</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="toolTip">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;N F A - Non-Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Can be in multiple states at a time. Any transition and jump function allows to shift into multiple states at once.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="text">
+     <string>Both-Ways</string>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
+    </property>
+    <property name="autoExclusive">
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="Line" name="line_3">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>150</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_4">
+   <property name="geometry">
+    <rect>
+     <x>431</x>
+     <y>150</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_5">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>320</y>
+     <width>231</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_6">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>140</y>
+     <width>231</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="LoadButton">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>100</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Starts evaluating the current set automata.&lt;br/&gt;&lt;br/&gt;Navigate the evaluation with &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Step&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Run To End&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; buttons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string>Load JFA
+configuration</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SaveButton">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>30</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Starts evaluating the current set automata.&lt;br/&gt;&lt;br/&gt;Navigate the evaluation with &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Step&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Run To End&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; buttons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string>Save JFA
+configuration</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line_7">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>350</y>
+     <width>20</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_8">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>350</y>
+     <width>20</width>
+     <height>191</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_9">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>530</y>
+     <width>231</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_10">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>340</y>
+     <width>231</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>inputAlphabetText</tabstop>
   <tabstop>inputStringText</tabstop>
-  <tabstop>machineStatesText</tabstop>
   <tabstop>jumpsDeclareText</tabstop>
+  <tabstop>machineStatesText</tabstop>
   <tabstop>startButton</tabstop>
   <tabstop>stepButton</tabstop>
   <tabstop>runToEndButton</tabstop>
   <tabstop>exitButton</tabstop>
   <tabstop>statusText</tabstop>
-  <tabstop>DIARadioButton</tabstop>
   <tabstop>outputStringTextFormatted</tabstop>
   <tabstop>statesCombobox</tabstop>
-  <tabstop>NIARadioButton</tabstop>
+  <tabstop>LoadButton</tabstop>
+  <tabstop>SaveButton</tabstop>
+  <tabstop>DJFARadioButton</tabstop>
+  <tabstop>NJFARadioButton</tabstop>
+  <tabstop>OneWayRadioButton</tabstop>
+  <tabstop>BothWayRadioButton</tabstop>
  </tabstops>
  <resources/>
  <connections/>

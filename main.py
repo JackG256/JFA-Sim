@@ -1,14 +1,16 @@
 import ctypes
 import sys
+import os
 
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QFont
-from PyQt5.QtWidgets import QApplication, QMainWindow, QCheckBox, QLabel, QVBoxLayout, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QCheckBox, QLabel, QVBoxLayout, QWidget, QFileDialog
 
 from customExceptions import *
 import preRun
 import runLogicDET
+
 # import assistFunctions
 
 qtCreatorFile = "baseUI.ui"
@@ -17,6 +19,24 @@ Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
 
 class MainAppWindow(QMainWindow, Ui_MainWindow):
+    def saveConfigAction(self):
+        # Get options for file dialog
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
+
+        # Preset a path to the configs folder in documents
+        default_dir = os.path.join(os.path.join(os.path.expanduser("~"), "Documents"), "JFA Configurations")
+
+        # Check if default_dir exists, and create it if it doesn't
+        if not os.path.exists(default_dir):
+            os.makedirs(default_dir)
+
+        filename, _ = QFileDialog.getOpenFileName(None, "Load File", default_dir, "JFA Config Files (*.JFACON)",
+                                                  options=options)
+
+    def loadConfigAction(self):
+        options = QFileDialog.Options()
+        options |= QFileDialog.DontUseNativeDialog
 
     def startAction(self):
         try:
@@ -189,12 +209,12 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     def stepAction(self):
         if self.machineStarted:
             try:
-                self.formattedInputDict, self.inputString, self.currentState, self.prevState = runLogicDET.findAndRunJumpOneSide(
-                    self.jTransitions,
-                    self.currentState,
-                    self.machineStates,
-                    self.formattedInputDict,
-                    self.inputString)
+                self.formattedInputDict, self.inputString, self.currentState, self.prevState = \
+                    runLogicDET.findAndRunJumpOneSide(self.jTransitions,
+                                                      self.currentState,
+                                                      self.machineStates,
+                                                      self.formattedInputDict,
+                                                      self.inputString)
 
                 self.statusText.setText(f"A jump has been performed!\n{self.prevState[0]} -> {self.currentState}"
                                         f" via reading {self.prevState[1]}")
@@ -259,6 +279,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.startButton.clicked.connect(self.startAction)
         self.stepButton.clicked.connect(self.stepAction)
         self.runToEndButton.clicked.connect(self.runToEndAction)
+
+        self.SaveButton.clicked.connect(self.saveConfigAction)
 
         # Connect load states action on text changed flag
         self.machineStatesText.textChanged.connect(self.loadStatesAction)
