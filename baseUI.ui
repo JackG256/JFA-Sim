@@ -99,29 +99,11 @@
     <string>Input Alphabet</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_3">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>120</y>
-     <width>131</width>
-     <height>19</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Jump Modes:</string>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="machineStatesText">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>369</y>
+     <y>149</y>
      <width>191</width>
      <height>171</height>
     </rect>
@@ -142,7 +124,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>340</y>
+     <y>120</y>
      <width>104</width>
      <height>19</height>
     </rect>
@@ -155,46 +137,6 @@
    <property name="text">
     <string>Machine States</string>
    </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>220</x>
-     <y>160</y>
-     <width>211</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="CharsContainer">
-    <item>
-     <layout class="QVBoxLayout" name="CharsDescriptionContainers">
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Automata&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="font">
-         <font>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Characteristics&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-   </layout>
   </widget>
   <widget class="QTextEdit" name="inputStringText">
    <property name="geometry">
@@ -238,7 +180,7 @@
   <widget class="QLabel" name="label_8">
    <property name="geometry">
     <rect>
-     <x>12</x>
+     <x>10</x>
      <y>550</y>
      <width>171</width>
      <height>19</height>
@@ -335,27 +277,6 @@
     <string>Run To End</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="jumpsDeclareText">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>150</y>
-     <width>191</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>12</pointsize>
-    </font>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Dictates jumps and transitions between specific states based on currently read symbols in the input string.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Transition function, when called, checks the input string for the specified symbol in the function.&lt;br/&gt;If the specified symbol exists in the string, it jumps to it and the transition is performed. &lt;br/&gt;If they it's not found, no transition is performed, stays on the current state and the curently read symbol gets moved ahead.&lt;br/&gt;Either way, the evaluation continues.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each function by &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;writing each one on a new line,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;declare each function in the following format:&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;lt;name of initial state&amp;gt; - &amp;lt;read symbol&amp;gt; - &amp;lt;name of state to transition to&amp;gt;&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - sta1&lt;br/&gt;sta1 - B - sta2&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In case of transition to multiple states at once: &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;(NFA only)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Write names of target states into &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;parentheses,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - (sta1;sta2)&lt;br/&gt;sta1 - B - sta3&lt;br/&gt;sta2 - C - sta0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="tabChangesFocus">
-    <bool>true</bool>
-   </property>
-  </widget>
   <widget class="QTextEdit" name="outputStringTextFormatted">
    <property name="geometry">
     <rect>
@@ -404,7 +325,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>390</y>
+     <y>170</y>
      <width>71</width>
      <height>31</height>
     </rect>
@@ -414,7 +335,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>360</y>
+     <y>140</y>
      <width>141</width>
      <height>19</height>
     </rect>
@@ -432,7 +353,7 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>430</y>
+     <y>210</y>
      <width>81</width>
      <height>19</height>
     </rect>
@@ -450,9 +371,9 @@
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>460</y>
+     <y>240</y>
      <width>211</width>
-     <height>71</height>
+     <height>91</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="endStatesGrid"/>
@@ -468,11 +389,110 @@
    </property>
    <layout class="QGridLayout" name="instancesGrid"/>
   </widget>
+  <widget class="QPushButton" name="LoadButton">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>100</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Starts evaluating the current set automata.&lt;br/&gt;&lt;br/&gt;Navigate the evaluation with &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Step&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Run To End&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; buttons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string>Load JFA
+configuration</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="SaveButton">
+   <property name="geometry">
+    <rect>
+     <x>890</x>
+     <y>30</y>
+     <width>111</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Starts evaluating the current set automata.&lt;br/&gt;&lt;br/&gt;Navigate the evaluation with &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Step&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Run To End&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; buttons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="text">
+    <string>Save JFA
+configuration</string>
+   </property>
+  </widget>
+  <widget class="Line" name="line_7">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>130</y>
+     <width>20</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_8">
+   <property name="geometry">
+    <rect>
+     <x>430</x>
+     <y>130</y>
+     <width>20</width>
+     <height>211</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_9">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>330</y>
+     <width>231</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_10">
+   <property name="geometry">
+    <rect>
+     <x>210</x>
+     <y>120</y>
+     <width>231</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+  </widget>
+  <widget class="Line" name="line_3">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>360</y>
+     <width>20</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Vertical</enum>
+   </property>
+  </widget>
   <widget class="QGroupBox" name="DeterminismBox">
    <property name="geometry">
     <rect>
      <x>220</x>
-     <y>230</y>
+     <y>440</y>
      <width>91</width>
      <height>81</height>
     </rect>
@@ -533,7 +553,7 @@
    <property name="geometry">
     <rect>
      <x>320</x>
-     <y>230</y>
+     <y>440</y>
      <width>111</width>
      <height>81</height>
     </rect>
@@ -596,24 +616,11 @@
     </property>
    </widget>
   </widget>
-  <widget class="Line" name="line_3">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>150</y>
-     <width>20</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-  </widget>
   <widget class="Line" name="line_4">
    <property name="geometry">
     <rect>
      <x>431</x>
-     <y>150</y>
+     <y>360</y>
      <width>20</width>
      <height>181</height>
     </rect>
@@ -622,93 +629,68 @@
     <enum>Qt::Vertical</enum>
    </property>
   </widget>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>220</x>
+     <y>370</y>
+     <width>211</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="CharsContainer">
+    <item>
+     <layout class="QVBoxLayout" name="CharsDescriptionContainers">
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Automata&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Characteristics&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QTextEdit" name="jumpsDeclareText">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>360</y>
+     <width>191</width>
+     <height>181</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Dictates jumps and transitions between specific states based on currently read symbols in the input string.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Transition function, when called, checks the input string for the specified symbol in the function.&lt;br/&gt;If the specified symbol exists in the string, it jumps to it and the transition is performed. &lt;br/&gt;If they it's not found, no transition is performed, stays on the current state and the curently read symbol gets moved ahead.&lt;br/&gt;Either way, the evaluation continues.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Divide each function by &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;writing each one on a new line,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;declare each function in the following format:&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;&amp;lt;name of initial state&amp;gt; - &amp;lt;read symbol&amp;gt; - &amp;lt;name of state to transition to&amp;gt;&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - sta1&lt;br/&gt;sta1 - B - sta2&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;etc.&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;In case of transition to multiple states at once: &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;(NFA only)&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Write names of target states into &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;parentheses,&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;divide each state with a &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;semicolon&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Example:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;sta0 - A - (sta1;sta2)&lt;br/&gt;sta1 - B - sta3&lt;br/&gt;sta2 - C - sta0&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="tabChangesFocus">
+    <bool>true</bool>
+   </property>
+  </widget>
   <widget class="Line" name="line_5">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>320</y>
-     <width>231</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="Line" name="line_6">
-   <property name="geometry">
-    <rect>
-     <x>210</x>
-     <y>140</y>
-     <width>231</width>
-     <height>21</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="LoadButton">
-   <property name="geometry">
-    <rect>
-     <x>890</x>
-     <y>100</y>
-     <width>111</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Starts evaluating the current set automata.&lt;br/&gt;&lt;br/&gt;Navigate the evaluation with &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Step&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Run To End&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; buttons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="text">
-    <string>Load JFA
-configuration</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="SaveButton">
-   <property name="geometry">
-    <rect>
-     <x>890</x>
-     <y>30</y>
-     <width>111</width>
-     <height>61</height>
-    </rect>
-   </property>
-   <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Starts evaluating the current set automata.&lt;br/&gt;&lt;br/&gt;Navigate the evaluation with &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Step&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Run To End&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt; buttons&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-   </property>
-   <property name="text">
-    <string>Save JFA
-configuration</string>
-   </property>
-  </widget>
-  <widget class="Line" name="line_7">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>350</y>
-     <width>20</width>
-     <height>191</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-  </widget>
-  <widget class="Line" name="line_8">
-   <property name="geometry">
-    <rect>
-     <x>430</x>
-     <y>350</y>
-     <width>20</width>
-     <height>191</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Vertical</enum>
-   </property>
-  </widget>
-  <widget class="Line" name="line_9">
    <property name="geometry">
     <rect>
      <x>210</x>
@@ -721,38 +703,56 @@ configuration</string>
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
-  <widget class="Line" name="line_10">
+  <widget class="Line" name="line_6">
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>340</y>
+     <y>350</y>
      <width>231</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="orientation">
     <enum>Qt::Horizontal</enum>
    </property>
   </widget>
+  <widget class="QLabel" name="label_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>330</y>
+     <width>131</width>
+     <height>19</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="text">
+    <string>Jump Modes:</string>
+   </property>
+  </widget>
  </widget>
  <tabstops>
   <tabstop>inputAlphabetText</tabstop>
   <tabstop>inputStringText</tabstop>
-  <tabstop>jumpsDeclareText</tabstop>
   <tabstop>machineStatesText</tabstop>
-  <tabstop>startButton</tabstop>
-  <tabstop>stepButton</tabstop>
-  <tabstop>runToEndButton</tabstop>
-  <tabstop>exitButton</tabstop>
-  <tabstop>statusText</tabstop>
-  <tabstop>outputStringTextFormatted</tabstop>
+  <tabstop>jumpsDeclareText</tabstop>
   <tabstop>statesCombobox</tabstop>
-  <tabstop>LoadButton</tabstop>
-  <tabstop>SaveButton</tabstop>
   <tabstop>DJFARadioButton</tabstop>
   <tabstop>NJFARadioButton</tabstop>
   <tabstop>OneWayRadioButton</tabstop>
   <tabstop>BothWayRadioButton</tabstop>
+  <tabstop>startButton</tabstop>
+  <tabstop>stepButton</tabstop>
+  <tabstop>exitButton</tabstop>
+  <tabstop>runToEndButton</tabstop>
+  <tabstop>SaveButton</tabstop>
+  <tabstop>LoadButton</tabstop>
+  <tabstop>statusText</tabstop>
+  <tabstop>outputStringTextFormatted</tabstop>
  </tabstops>
  <resources/>
  <connections/>

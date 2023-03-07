@@ -17,26 +17,60 @@ qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
 Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
+# Get options for file dialog
+dialogOptions = QFileDialog.Options()
+dialogOptions |= QFileDialog.DontUseNativeDialog
+
+# Preset a path to the configs folder in documents
+dialogDefaultDir = os.path.join(os.path.expanduser("~"), "Documents")
+dialogDefaultDir = os.path.join(dialogDefaultDir, "JFA Configurations")
+dialogDefaultFile = os.path.join(dialogDefaultDir, "JFA Configuration")
+
 
 class MainAppWindow(QMainWindow, Ui_MainWindow):
     def saveConfigAction(self):
-        # Get options for file dialog
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
-
-        # Preset a path to the configs folder in documents
-        default_dir = os.path.join(os.path.join(os.path.expanduser("~"), "Documents"), "JFA Configurations")
-
         # Check if default_dir exists, and create it if it doesn't
-        if not os.path.exists(default_dir):
-            os.makedirs(default_dir)
+        if not os.path.exists(dialogDefaultDir):
+            os.makedirs(dialogDefaultDir)
 
-        filename, _ = QFileDialog.getOpenFileName(None, "Load File", default_dir, "JFA Config Files (*.JFACON)",
-                                                  options=options)
+        # Open fileDialog
+        filename, _ = QFileDialog.getSaveFileName(None, "Save Configuration File", dialogDefaultFile,
+                                                  "JFA Config Files (*.JFACON)", options=dialogOptions)
+        if filename:
+            # Save data to the selected file
+            with open(filename, "w") as f:
+                f.write(str(self.inputAlphabetText.toPlainText()) + "\n")
+                f.write(str(self.inputStringText.toPlainText()) + "\n")
+                f.write(str(self.machineStatesText.toPlainText()) + "\n")
+                f.write(str(self.jumpsDeclareText.toPlainText()) + "\n")
+
+            print("Data saved to file:", filename)
 
     def loadConfigAction(self):
-        options = QFileDialog.Options()
-        options |= QFileDialog.DontUseNativeDialog
+        # Check if default_dir exists, and create it if it doesn't
+        if not os.path.exists(dialogDefaultDir):
+            os.makedirs(dialogDefaultDir)
+
+        # Open fileDialog
+        filename, _ = QFileDialog.getOpenFileName(None, "Save Configuration File", dialogDefaultFile,
+                                                  "JFA Config Files (*.JFACON)", options=dialogOptions)
+
+        if filename:
+            # Load data from the selected file
+            with open(filename, "r") as f:
+                # Update variables based on file content
+                self.alphabet = f.readline().strip()
+                self.inputString = f.readline().strip()
+                self.machineStates = f.readline().strip()
+                self.jTransitions = f.read().strip()
+
+            print("Data loaded from file:", filename)
+
+        # Set text fields to new variables
+        self.inputAlphabetText.setText(self.alphabet)
+        self.inputStringText.setText(self.inputString)
+        self.machineStatesText.setText(self.machineStates)
+        self.jumpsDeclareText.setText(self.jTransitions)
 
     def startAction(self):
         try:
@@ -281,6 +315,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.runToEndButton.clicked.connect(self.runToEndAction)
 
         self.SaveButton.clicked.connect(self.saveConfigAction)
+        self.LoadButton.clicked.connect(self.loadConfigAction)
 
         # Connect load states action on text changed flag
         self.machineStatesText.textChanged.connect(self.loadStatesAction)

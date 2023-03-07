@@ -1,5 +1,4 @@
 from customExceptions import *
-from main import MainAppWindow
 
 
 def filterMachineAlphabet(unfiltered):
