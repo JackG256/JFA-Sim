@@ -78,8 +78,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             self.alphabet = preRun.filterMachineAlphabet(self.inputAlphabetText.toPlainText())
             self.inputString, self.formattedInputDict = preRun.filterInputString(self.inputStringText.toPlainText(),
                                                                                  self.alphabet)
+            self.inputStringStart = self.inputString
             self.currentReadSymbol = self.inputString[0]
-            # self.inputString = self.inputString[1:]
 
             # Code to get information about shortened string, works with symbol key-value dictionary
             # Get keys
@@ -99,9 +99,24 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
             # Get currently selected start and end states
             tmp = self.statesCombobox.currentText()
+            # Prevent empty selection
             if tmp != "No Selection":
                 self.startState = tmp
 
+            # Check evaluation characteristic radio buttons and update flag
+            if self.OneWayRadioButton.isChecked():
+                self.oneWay = True
+            elif self.BothWaysRadioButton.isChecked():
+                self.oneWay = False
+
+            # Check determinism characteristic radio buttons and update flag
+            if self.DJFARadioButton.isChecked():
+                self.deterministic = True
+            elif self.NJFARadioButton.isChecked():
+                self.deterministic = False
+
+            # Go through all checkboxes and check if they are selected
+            # If they are, add them to list as str
             self.endStates = [checkbox.text() for checkbox in self.checkBoxList if checkbox.isChecked()]
 
             # Get and filter inputs
@@ -113,7 +128,10 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                                                              self.alphabet,
                                                              self.machineStates)
 
-            # If all passed, ensure the user
+            # Preemptively clear some variables
+            self.readSymbols.clear()
+
+            # If all passed, tell the user
             self.statusText.setText("Passed!\n"
                                     "Machine has been loaded!")
 
@@ -125,6 +143,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                   f" {self.machineStates}\nSpecified starting state: {self.startState}\n"
                   f"Specified end states: {self.endStates}\nSpecified jumps: {self.jTransitions}")
 
+            # If all passed, flip the flag for steps
             self.machineStarted = True
 
             # Loop to clear and remove all sublayouts in the instancesGrid layout
@@ -144,9 +163,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                             if subwidget is not None:
                                 subwidget.deleteLater()
 
-            # Generate labels for an instance of JFA
+            # Generate labels for an instance of JFA with their content
             self.labelString = QLabel(''.join(self.inputString))
-            self.labelState = QLabel(f"Current state {self.startState}")
+            self.labelState = QLabel(f"Current state: <b>{self.startState}</b>")
 
             self.labelJumps = QLabel(str(runLogicDET.findNextJumps(self.jTransitions,
                                                                    self.currentState,
@@ -187,6 +206,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     @staticmethod
     def exitAction():
+        # Called when the exit button is pressed
+        # Closes the window and terminates the process
         sys.exit(1)
 
     def loadStatesAction(self):
@@ -241,39 +262,101 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 row += 1
 
     def stepAction(self):
-        if self.machineStarted:
-            try:
-                self.formattedInputDict, self.inputString, self.currentState, self.prevState = \
+        # Check to see if JFA was loaded
+        if not self.machineStarted:
+            return
+
+        # Try/Catch for custom exceptions
+        try:
+            # Call the main method based on radio button selection
+            if self.OneWayRadioButton.isChecked():
+                self.formattedInputDict, self.inputString, self.currentState, self.prevInfo = \
                     runLogicDET.findAndRunJumpOneSide(self.jTransitions,
                                                       self.currentState,
                                                       self.machineStates,
                                                       self.formattedInputDict,
                                                       self.inputString)
+            elif self.BothWaysRadioButton.isChecked():
+                self.formattedInputDict, self.inputString, self.currentState, self.prevInfo = \
+                    runLogicDET.findAndRunJumpBothSides(self.jTransitions,
+                                                        self.currentState,
+                                                        self.machineStates,
+                                                        self.formattedInputDict,
+                                                        self.inputString)
 
-                self.statusText.setText(f"A jump has been performed!\n{self.prevState[0]} -> {self.currentState}"
-                                        f" via reading {self.prevState[1]}")
+            # Update status text with user feedback
+            self.statusText.setText(f"A jump has been performed!\n{self.prevInfo[0]} -> {self.currentState}"
+                                    f" via reading {self.prevInfo[1]}")
 
-                print(f"\nA jump has been performed\nNew formatted string:")
+            # Debug prints
+            # TODO: Remove
+            print(f"\nA jump has been performed\nNew formatted string:")
 
-                for key in self.formattedInputDict:
-                    print(f"Key: '{key}': {self.formattedInputDict[key]}")
+            for key in self.formattedInputDict:
+                print(f"Key: '{key}': {self.formattedInputDict[key]}")
 
-            except NoJumpToPerform as exc:
-                self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
+        except NoJumpToPerform as exc:
+            self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
-            print(f"\nNew input string: {self.inputString}" f"\nNew current state: {self.currentState}")
+        # Debug print
+        # TODO: Remove
+        print(f"\nNew input string: {self.inputString}" f"\nNew current state: {self.currentState}")
 
-            if len(self.inputString) == 0:
-                if self.currentState in self.endStates:
-                    print("END! ACCEPTED")
-                    self.statusText.setText(f"<b>Machine ACCEPTED</b><br>"
-                                            f"A jump has been performed!<br>{self.prevState[0]} -> {self.currentState}"
-                                            f" via reading {self.prevState[1]}")
-                else:
-                    self.statusText.setText(f"<b>Machine REFUSED</b><br>"
-                                            f"A jump has been performed!<br>{self.prevState[0]} -> {self.currentState}"
-                                            f" via reading {self.prevState[1]}")
-                self.machineStarted = False
+        # Initialize/reinitialize the output string
+        labelString = ""
+        markedGreen = False
+        symbolToUpdate = ""
+
+        # Iterate over each symbol in the input string
+        for i, symbol in enumerate(self.inputStringStart):
+            # Check if the current symbol was just read by the JFA
+            if symbol == self.prevInfo[1] and not markedGreen:
+                # If the current symbol was just read, format it with green color,
+                # then temporarily save the writen symbol and it's possition.
+                labelString += f"<span style='color:green'>{symbol}</span>"
+                symbolToUpdate = [symbol, i]
+
+                # Flip the bool value to prevent multiple green symbols
+                markedGreen = True
+
+                # After that, skip this iteration
+                continue
+
+            # Check if the symbol has been read by the JFA before
+            if [symbol, i] in self.readSymbols:
+                # If the symbol has been read before, format it with red color
+                labelString += f"<span style='color:red'>{symbol}</span>"
+            else:
+                # If the symbol has not been read before, format it with black color
+                labelString += f"<span style='color:black'>{symbol}</span>"
+
+        # Add the instance of written symbol and its position to a global list
+        self.readSymbols.append(symbolToUpdate)
+        # Update the content of instance string label
+        self.labelString.setText(labelString)
+
+        # Update the state label with new current state
+        self.labelState.setText(f"Current state: <b>{self.currentState}</b>")
+
+        # Update the jumps label with new text
+        self.labelJumps.setText(str(runLogicDET.findNextJumps(self.jTransitions, self.currentState, self.inputString)))
+
+        # Once the input string is empty, check if JFA is accepted or not
+        if len(self.inputString) == 0:
+            if self.currentState in self.endStates:
+                # Debug print
+                # TODO: Delete later
+                print("END! ACCEPTED")
+                self.statusText.setText(f"<b>Machine ACCEPTED</b><br>"
+                                        f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
+                                        f" via reading {self.prevInfo[1]}")
+            else:
+                self.statusText.setText(f"<b>Machine REFUSED</b><br>"
+                                        f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
+                                        f" via reading {self.prevInfo[1]}")
+
+            # Flip the flag to prevent running logic on empty data
+            self.machineStarted = False
 
     def runToEndAction(self):
         while self.machineStarted:
@@ -285,11 +368,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.setupUi(self)
 
         self.machineStarted = False
+        self.oneWay = True
+        self.deterministic = True
         self.startState = ""
         self.endStates = []
 
         self.alphabet = ""
         self.inputString = ""
+        self.inputStringStart = ""
         self.machineStates = ""
         self.jTransitions = ""
 
@@ -304,8 +390,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         self.currentReadSymbol = ""
         self.currentState = ""
-        self.prevState = ""
+        self.prevInfo = ""
         self.checkBoxList = []
+        self.readSymbols = []
 
         self.formattedInputDict = []
 
