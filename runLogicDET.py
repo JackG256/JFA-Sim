@@ -27,11 +27,11 @@ def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, 
     outputString = ""
     symbolReached = False
     for symbol in inputString:
-        if symbolReached:
-            outputString += symbol
-
-        if symbol == currentReadSymbol:
+        if symbol == currentReadSymbol and not symbolReached:
             symbolReached = True
+            pass
+
+        outputString += symbol
 
     return inputDict, outputString, currentState, previousInfo
 
@@ -55,6 +55,7 @@ def findAndRunJumpBothSides(jTransitions, currentState, machineStates, inputDict
     if state not in machineStates:
         raise RuntimeError
 
+    previousInfo = [listOfEndpoints[0][0], listOfEndpoints[0][1]]
     currentState = listOfEndpoints[0][2]
     currentReadSymbol = listOfEndpoints[0][1]
 
@@ -66,13 +67,13 @@ def findAndRunJumpBothSides(jTransitions, currentState, machineStates, inputDict
     outputString = ""
     symbolReached = False
     for symbol in inputString:
-        if symbolReached:
-            outputString += symbol
-
-        if symbol == currentReadSymbol:
+        if symbol == currentReadSymbol and not symbolReached:
             symbolReached = True
+            continue
 
-    return inputDict, outputString, currentState
+        outputString += symbol
+
+    return inputDict, outputString, currentState, previousInfo
 
 
 def findNextJumps(jTransitions, currentState, inputString):
