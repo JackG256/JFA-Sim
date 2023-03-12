@@ -1,7 +1,9 @@
 from customExceptions import NoJumpToPerform
 
 
-def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, inputString):
+def findAndRunJumpOneSide(
+    jTransitions, currentState, machineStates, inputDict, inputString
+):
     listOfEndpoints = []
 
     for entry in jTransitions:
@@ -36,7 +38,9 @@ def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, 
     return inputDict, outputString, currentState, previousInfo
 
 
-def findAndRunJumpBothSides(jTransitions, currentState, machineStates, inputDict, inputString):
+def findAndRunJumpBothSides(
+    jTransitions, currentState, machineStates, inputDict, inputString
+):
     listOfEndpoints = []
     usedSymbol = ""
 

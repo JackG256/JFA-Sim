@@ -20,7 +20,7 @@ def filterMachineAlphabet(unfiltered):
     unfiltered = unfiltered.split(";")
 
     # Check if list is not empty
-    if len(unfiltered) == 1 and unfiltered[0] == '':
+    if len(unfiltered) == 1 and unfiltered[0] == "":
         raise EmptyFieldError("Input alphabet field")
 
     # Failsafe to remove last empty field if user ended string with ';'
@@ -112,7 +112,7 @@ def filterMachineStates(unfiltered, startMarked, endMarked):
     unfiltered = unfiltered.split(";")
 
     # Check if list is not empty
-    if len(unfiltered) == 1 and unfiltered[0] == '':
+    if len(unfiltered) == 1 and unfiltered[0] == "":
         raise EmptyFieldError("Machine states field")
 
     # Failsafe to remove all empty fields'
@@ -156,7 +156,7 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates):
 
     # Remove redundant whitespaces, split by new line and split each separate line by separator characters
     filteredJumpEntriesList = []
-    for entry in unfiltered.replace(" ", "").split('\n'):
+    for entry in unfiltered.replace(" ", "").split("\n"):
         filteredJumpEntriesList.append(entry.split("-"))
 
     # Test checks if information in jump transition is valid

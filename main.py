@@ -5,7 +5,15 @@ import os
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon, QFont
-from PyQt5.QtWidgets import QApplication, QMainWindow, QCheckBox, QLabel, QVBoxLayout, QWidget, QFileDialog
+from PyQt5.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QCheckBox,
+    QLabel,
+    QVBoxLayout,
+    QWidget,
+    QFileDialog,
+)
 
 from customExceptions import *
 import preRun
@@ -34,8 +42,13 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             os.makedirs(dialogDefaultDir)
 
         # Open fileDialog
-        filename, _ = QFileDialog.getSaveFileName(None, "Save Configuration File", dialogDefaultFile,
-                                                  "JFA Config Files (*.JFACON)", options=dialogOptions)
+        filename, _ = QFileDialog.getSaveFileName(
+            None,
+            "Save Configuration File",
+            dialogDefaultFile,
+            "JFA Config Files (*.JFACON)",
+            options=dialogOptions,
+        )
         if filename:
             # Save data to the selected file
             with open(filename, "w") as f:
@@ -52,8 +65,13 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             os.makedirs(dialogDefaultDir)
 
         # Open fileDialog
-        filename, _ = QFileDialog.getOpenFileName(None, "Save Configuration File", dialogDefaultFile,
-                                                  "JFA Config Files (*.JFACON)", options=dialogOptions)
+        filename, _ = QFileDialog.getOpenFileName(
+            None,
+            "Save Configuration File",
+            dialogDefaultFile,
+            "JFA Config Files (*.JFACON)",
+            options=dialogOptions,
+        )
 
         if filename:
             # Load data from the selected file
@@ -75,9 +93,12 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     def startAction(self):
         try:
             # Get and filter inputs
-            self.alphabet = preRun.filterMachineAlphabet(self.inputAlphabetText.toPlainText())
-            self.inputString, self.formattedInputDict = preRun.filterInputString(self.inputStringText.toPlainText(),
-                                                                                 self.alphabet)
+            self.alphabet = preRun.filterMachineAlphabet(
+                self.inputAlphabetText.toPlainText()
+            )
+            self.inputString, self.formattedInputDict = preRun.filterInputString(
+                self.inputStringText.toPlainText(), self.alphabet
+            )
             self.inputStringStart = self.inputString
             self.currentReadSymbol = self.inputString[0]
 
@@ -120,28 +141,29 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             self.endStates = [checkbox.text() for checkbox in self.checkBoxList if checkbox.isChecked()]
 
             # Get and filter inputs
-            self.machineStates, self.currentState = preRun.filterMachineStates(self.machineStatesText.toPlainText(),
-                                                                               self.startState,
-                                                                               self.endStates)
+            self.machineStates, self.currentState = preRun.filterMachineStates(
+                self.machineStatesText.toPlainText(), self.startState, self.endStates
+            )
 
-            self.jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(),
-                                                             self.alphabet,
-                                                             self.machineStates)
+            self.jTransitions = preRun.filterJumpTransitions(
+                self.jumpsDeclareText.toPlainText(), self.alphabet, self.machineStates
+            )
 
             # Preemptively clear some variables
             self.readSymbols.clear()
 
             # If all passed, tell the user
-            self.statusText.setText("Passed!\n"
-                                    "Machine has been loaded!")
+            self.statusText.setText("Passed!\n" "Machine has been loaded!")
 
             # Print formatted input string to text field
             self.outputStringTextFormatted.setText(formattedInputStrToPrint)
 
             # Debug print
-            print(f"\nSpecified alphabet: {self.alphabet}\nSpecified input str: {self.inputString}\nSpecified states:"
-                  f" {self.machineStates}\nSpecified starting state: {self.startState}\n"
-                  f"Specified end states: {self.endStates}\nSpecified jumps: {self.jTransitions}")
+            print(
+                f"\nSpecified alphabet: {self.alphabet}\nSpecified input str: {self.inputString}\nSpecified states:"
+                f" {self.machineStates}\nSpecified starting state: {self.startState}\n"
+                f"Specified end states: {self.endStates}\nSpecified jumps: {self.jTransitions}"
+            )
 
             # If all passed, flip the flag for steps
             self.machineStarted = True
@@ -164,12 +186,16 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                                 subwidget.deleteLater()
 
             # Generate labels for an instance of JFA with their content
-            self.labelString = QLabel(''.join(self.inputString))
+            self.labelString = QLabel("".join(self.inputString))
             self.labelState = QLabel(f"Current state: <b>{self.startState}</b>")
 
-            self.labelJumps = QLabel(str(runLogicDET.findNextJumps(self.jTransitions,
-                                                                   self.currentState,
-                                                                   self.inputString)))
+            self.labelJumps = QLabel(
+                str(
+                    runLogicDET.findNextJumps(
+                        self.jTransitions, self.currentState, self.inputString
+                    )
+                )
+            )
 
             self.labelString.setFont(QFont("Arial", 14, QFont.Bold))
             self.labelString.setAlignment(Qt.AlignCenter)
@@ -199,9 +225,16 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         # Except branch to catch all custom exceptions and print them to status field
         # Functions as feedback to user about incorrect input
-        except (EmptyFieldError, InvalidAlphabetFormatError, InvalidSymbolInAlphabetError,
-                InputSymbolNotInAlphabetError, StartStateNotFoundError, EndStateNotFoundError, StateDoesNotExistError,
-                SymbolDoesNotExistError) as exc:
+        except (
+            EmptyFieldError,
+            InvalidAlphabetFormatError,
+            InvalidSymbolInAlphabetError,
+            InputSymbolNotInAlphabetError,
+            StartStateNotFoundError,
+            EndStateNotFoundError,
+            StateDoesNotExistError,
+            SymbolDoesNotExistError,
+        ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
     @staticmethod
@@ -212,7 +245,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
     def loadStatesAction(self):
         # Pull inputted states from text box and split them into a list
-        states = self.machineStatesText.toPlainText().replace('\n', '').split(";")
+        states = self.machineStatesText.toPlainText().replace("\n", "").split(";")
 
         # Clear the selection combobox before assigning new values
         self.statesCombobox.clear()
@@ -234,7 +267,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.statesCombobox.addItem("No Selection")
 
         # Failsafe if empty text box
-        if len(states) == 1 and states[0] == '':
+        if len(states) == 1 and states[0] == "":
             return False
 
         # Helping variables
@@ -270,23 +303,37 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         try:
             # Call the main method based on radio button selection
             if self.OneWayRadioButton.isChecked():
-                self.formattedInputDict, self.inputString, self.currentState, self.prevInfo = \
-                    runLogicDET.findAndRunJumpOneSide(self.jTransitions,
-                                                      self.currentState,
-                                                      self.machineStates,
-                                                      self.formattedInputDict,
-                                                      self.inputString)
+                (
+                    self.formattedInputDict,
+                    self.inputString,
+                    self.currentState,
+                    self.prevInfo,
+                ) = runLogicDET.findAndRunJumpOneSide(
+                    self.jTransitions,
+                    self.currentState,
+                    self.machineStates,
+                    self.formattedInputDict,
+                    self.inputString,
+                )
             elif self.BothWaysRadioButton.isChecked():
-                self.formattedInputDict, self.inputString, self.currentState, self.prevInfo = \
-                    runLogicDET.findAndRunJumpBothSides(self.jTransitions,
-                                                        self.currentState,
-                                                        self.machineStates,
-                                                        self.formattedInputDict,
-                                                        self.inputString)
+                (
+                    self.formattedInputDict,
+                    self.inputString,
+                    self.currentState,
+                    self.prevInfo,
+                ) = runLogicDET.findAndRunJumpBothSides(
+                    self.jTransitions,
+                    self.currentState,
+                    self.machineStates,
+                    self.formattedInputDict,
+                    self.inputString,
+                )
 
             # Update status text with user feedback
-            self.statusText.setText(f"A jump has been performed!\n{self.prevInfo[0]} -> {self.currentState}"
-                                    f" via reading {self.prevInfo[1]}")
+            self.statusText.setText(
+                f"A jump has been performed!\n{self.prevInfo[0]} -> {self.currentState}"
+                f" via reading {self.prevInfo[1]}"
+            )
 
             # Debug prints
             # TODO: Remove
@@ -300,7 +347,10 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         # Debug print
         # TODO: Remove
-        print(f"\nNew input string: {self.inputString}" f"\nNew current state: {self.currentState}")
+        print(
+            f"\nNew input string: {self.inputString}"
+            f"\nNew current state: {self.currentState}"
+        )
 
         # Initialize/reinitialize the output string
         labelString = ""
@@ -339,7 +389,13 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.labelState.setText(f"Current state: <b>{self.currentState}</b>")
 
         # Update the jumps label with new text
-        self.labelJumps.setText(str(runLogicDET.findNextJumps(self.jTransitions, self.currentState, self.inputString)))
+        self.labelJumps.setText(
+            str(
+                runLogicDET.findNextJumps(
+                    self.jTransitions, self.currentState, self.inputString
+                )
+            )
+        )
 
         # Once the input string is empty, check if JFA is accepted or not
         if len(self.inputString) == 0:
@@ -347,13 +403,17 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 # Debug print
                 # TODO: Delete later
                 print("END! ACCEPTED")
-                self.statusText.setText(f"<b>Machine ACCEPTED</b><br>"
-                                        f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
-                                        f" via reading {self.prevInfo[1]}")
+                self.statusText.setText(
+                    f"<b>Machine ACCEPTED</b><br>"
+                    f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
+                    f" via reading {self.prevInfo[1]}"
+                )
             else:
-                self.statusText.setText(f"<b>Machine REFUSED</b><br>"
-                                        f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
-                                        f" via reading {self.prevInfo[1]}")
+                self.statusText.setText(
+                    f"<b>Machine REFUSED</b><br>"
+                    f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
+                    f" via reading {self.prevInfo[1]}"
+                )
 
             # Flip the flag to prevent running logic on empty data
             self.machineStarted = False
@@ -425,7 +485,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Set custom icon to app in taskbar
         # This is a workaround I found on stackoverflow
         # Works via AppUserModelsIDs. Apart from that, I have no idea how it works
-        myappid = 'JFA.Sim'
+        myappid = "JFA.Sim"
         ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 
