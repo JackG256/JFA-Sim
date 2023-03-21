@@ -31,7 +31,7 @@ def findAndRunJumpOneSide(
     for symbol in inputString:
         if symbol == currentReadSymbol and not symbolReached:
             symbolReached = True
-            pass
+            continue
 
         outputString += symbol
 
