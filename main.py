@@ -1,6 +1,7 @@
 import ctypes
 import sys
 import os
+import numpy as np
 
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
@@ -18,6 +19,7 @@ from PyQt5.QtWidgets import (
 from customExceptions import *
 import preRun
 import runLogicDET
+import runLogicNDET
 
 # import assistFunctions
 
@@ -36,12 +38,16 @@ dialogDefaultFile = os.path.join(dialogDefaultDir, "JFA Configuration")
 
 
 class MainAppWindow(QMainWindow, Ui_MainWindow):
+
+    # Method called for saving JFA context to a file.
+    # Saves important global variables to a custom .JFACON file
     def saveConfigAction(self):
         # Check if default_dir exists, and create it if it doesn't
         if not os.path.exists(dialogDefaultDir):
             os.makedirs(dialogDefaultDir)
 
         # Open fileDialog
+        # TODO: Fix only 1 filename display
         filename, _ = QFileDialog.getSaveFileName(
             None,
             "Save Configuration File",
@@ -59,12 +65,16 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
             print("Data saved to file:", filename)
 
+    # Method called for loading JFA context from a file
+    # Loads and updates importang global variables based on content
+    # from a custom .JFACON file
     def loadConfigAction(self):
         # Check if default_dir exists, and create it if it doesn't
         if not os.path.exists(dialogDefaultDir):
             os.makedirs(dialogDefaultDir)
 
         # Open fileDialog
+        # TODO: Fix only 1 filename display
         filename, _ = QFileDialog.getOpenFileName(
             None,
             "Save Configuration File",
@@ -90,6 +100,11 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.machineStatesText.setText(self.machineStates)
         self.jumpsDeclareText.setText(self.jTransitions)
 
+    # Method called when loading the context of a JFA configuration from frontend
+    # Takes user inputs, runs filters and integrity checks, updates global variables
+    # Checks other input fields and updates global flags
+    # Currently generates the instance of JFA in the instances layout
+    # TODO: Updates this ^ to not break non-deterministic logic
     def startAction(self):
         try:
             # Get and filter inputs
@@ -127,7 +142,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Check evaluation characteristic radio buttons and update flag
             if self.OneWayRadioButton.isChecked():
                 self.oneWay = True
-            elif self.BothWaysRadioButton.isChecked():
+            elif self.BothWayRadioButton.isChecked():
                 self.oneWay = False
 
             # Check determinism characteristic radio buttons and update flag
@@ -197,31 +212,36 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 )
             )
 
-            self.labelString.setFont(QFont("Arial", 14, QFont.Bold))
-            self.labelString.setAlignment(Qt.AlignCenter)
-            self.labelString.setFixedSize(158, 20)
+            if self.deterministic:
+                self.labelString.setFont(QFont("Arial", 14, QFont.Bold))
+                self.labelString.setAlignment(Qt.AlignCenter)
+                self.labelString.setFixedSize(158, 20)
 
-            self.labelState.setFont(QFont("Arial", 10, QFont.Bold))
-            self.labelState.setAlignment(Qt.AlignCenter)
-            self.labelState.setFixedSize(158, 17)
+                self.labelState.setFont(QFont("Arial", 10, QFont.Bold))
+                self.labelState.setAlignment(Qt.AlignCenter)
+                self.labelState.setFixedSize(158, 17)
 
-            self.labelJumps.setFont(QFont("Arial", 12, QFont.Bold))
-            self.labelJumps.setAlignment(Qt.AlignCenter)
-            self.labelJumps.setFixedSize(158, 134)
+                self.labelJumps.setFont(QFont("Arial", 12, QFont.Bold))
+                self.labelJumps.setAlignment(Qt.AlignCenter)
+                self.labelJumps.setFixedSize(158, 134)
 
-            # Create a layout object containing labels
-            layout = QVBoxLayout()
-            layout.addWidget(self.labelString)
-            layout.addWidget(self.labelState)
-            layout.addWidget(self.labelJumpsText)
-            layout.addWidget(self.labelJumps)
+                # Create a layout object containing labels
+                layout = QVBoxLayout()
+                layout.addWidget(self.labelString)
+                layout.addWidget(self.labelState)
+                layout.addWidget(self.labelJumpsText)
+                layout.addWidget(self.labelJumps)
 
-            # Assign the layout object to a layout widget
-            layoutWidget = QWidget()
-            layoutWidget.setFixedSize(158, 201)
-            layoutWidget.setLayout(layout)
+                # Assign the layout object to a layout widget
+                layoutWidget = QWidget()
+                layoutWidget.setFixedSize(158, 201)
+                layoutWidget.setLayout(layout)
 
-            self.instancesGrid.addWidget(layoutWidget)
+                self.instancesGrid.addWidget(layoutWidget)
+            else:
+                initialMatrix, pathMatrix = \
+                    runLogicNDET.generateAdjacencyMatrix(self.jTransitions, len(self.inputStringStart))
+                print(f"\n{np.matrix(initialMatrix)}\n{np.matrix(pathMatrix)}")
 
         # Except branch to catch all custom exceptions and print them to status field
         # Functions as feedback to user about incorrect input
@@ -237,12 +257,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
+    # Called when the exit button is pressed
+    # Closes the window and terminates the process
     @staticmethod
     def exitAction():
-        # Called when the exit button is pressed
-        # Closes the window and terminates the process
         sys.exit(1)
 
+    # Method called when loading and generating checkbox instances
+    # Generated based on user input in the 'Machine States' field
     def loadStatesAction(self):
         # Pull inputted states from text box and split them into a list
         states = self.machineStatesText.toPlainText().replace("\n", "").split(";")
@@ -294,6 +316,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 col = 0
                 row += 1
 
+    # Method called for simulating a logical step/jump in the JFA
+    # Calls specific method based on user selection and updates specific variable
+    # to provide user feedback
     def stepAction(self):
         # Check to see if JFA was loaded
         if not self.machineStarted:
@@ -302,7 +327,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Try/Catch for custom exceptions
         try:
             # Call the main method based on radio button selection
-            if self.OneWayRadioButton.isChecked():
+            if self.oneWay:
                 (
                     self.formattedInputDict,
                     self.inputString,
@@ -315,7 +340,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     self.formattedInputDict,
                     self.inputString,
                 )
-            elif self.BothWaysRadioButton.isChecked():
+            else:
                 (
                     self.formattedInputDict,
                     self.inputString,
@@ -360,7 +385,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Iterate over each symbol in the input string
         for i, symbol in enumerate(self.inputStringStart):
             # Check if the current symbol was just read by the JFA
-            if symbol == self.prevInfo[1] and not markedGreen:
+            if symbol == self.prevInfo[1] and not markedGreen and [symbol, i] not in self.readSymbols:
                 # If the current symbol was just read, format it with green color,
                 # then temporarily save the writen symbol and it's possition.
                 labelString += f"<span style='color:green'>{symbol}</span>"
@@ -418,10 +443,13 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Flip the flag to prevent running logic on empty data
             self.machineStarted = False
 
+    # Method to loop steps until the machine is done
     def runToEndAction(self):
         while self.machineStarted:
             self.stepAction()
 
+    # MainApp class constructor
+    # Sets all global variables and also edits process information
     def __init__(self):
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
@@ -467,7 +495,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Connect load states action on text changed flag
         self.machineStatesText.textChanged.connect(self.loadStatesAction)
 
-        # Defulat value in selection box on run
+        # Default value in selection box on run
         self.statesCombobox.addItem("No Selection")
 
         # Set alternative style
