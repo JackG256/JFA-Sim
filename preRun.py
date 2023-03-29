@@ -149,8 +149,10 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
     :param machineStates: a list of all recognized machine states
     :exception StateDoesNotExistError: Custom exception, raised when specified state in function
                is not present within machineStates list, takes string value of non-existent state as input
-    :exception SymbolDoesNotExistsError: Custome exception, raised when specified symbol in function
+    :exception SymbolDoesNotExistsError: Custom exception, raised when specified symbol in function
                is not presen within alphabet list, takes string value of non-existent symbol as input
+    :exception InvalidDeterministcFormat: Custom exception, raised when multiple transitions from same state
+               are detected. Prevent running non-deterministic configuration in deterministic mode.
     :return:
     """
 
