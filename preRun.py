@@ -138,7 +138,7 @@ def filterMachineStates(unfiltered, startMarked, endMarked):
     return unfiltered, startingState
 
 
-def filterJumpTransitions(unfiltered, alphabet, machineStates):
+def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
     """
     Filtering function that takes input from 'Jump Modes field'
     Input is filtered into a list and ran through a few test checks for validity and consistency
@@ -169,6 +169,15 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates):
 
         if not helpSymbolWasProvided(entry, alphabet):
             raise SymbolDoesNotExistError(entry[1])
+
+    if not deterministic:
+        return filteredJumpEntriesList
+
+    jumpsByOriginDestination = []
+    for entry in filteredJumpEntriesList:
+        if entry[0] in jumpsByOriginDestination:
+            raise InvalidDeterministicFormat(entry[0])
+        jumpsByOriginDestination.append(entry[0])
 
     return filteredJumpEntriesList
 

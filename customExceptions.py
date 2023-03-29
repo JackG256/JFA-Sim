@@ -25,6 +25,20 @@ class EmptyFieldError(Exception):
     pass
 
 
+class InvalidDeterministicFormat(Exception):
+    """Provided jump transitions are invalid for deterministic approach"""
+
+    def __init__(self, state, *args):
+        super().__init__(args)
+        self.state = state
+
+    def __str__(self):
+        return f"Provided configuration of jump transitions doesn't behave deterministically:" \
+               f"<br>The state {self.state} has too many outward transitions"
+
+    pass
+
+
 class InvalidSymbolInAlphabetError(Exception):
     """A provided symbol in input alphabet is not a valid letter or a number"""
 
