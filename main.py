@@ -107,6 +107,38 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     # TODO: Updates this ^ to not break non-deterministic logic
     def startAction(self):
         try:
+            # Check evaluation characteristic radio buttons and update flag
+            if self.OneWayRadioButton.isChecked():
+                self.oneWay = True
+            elif self.BothWayRadioButton.isChecked():
+                self.oneWay = False
+
+            # Check determinism characteristic radio buttons and update flag
+            if self.DJFARadioButton.isChecked():
+                self.deterministic = True
+            elif self.NJFARadioButton.isChecked():
+                self.deterministic = False
+
+            # Preemptively clear some variables
+            self.readSymbols.clear()
+
+            # Loop to clear and remove all sublayouts in the instancesGrid layout
+            while self.instancesGrid.count():
+                # Get and check if item is a widget, if yes, delete it
+                item = self.instancesGrid.takeAt(0)
+                widget = item.widget()
+                if widget is not None:
+                    widget.deleteLater()
+                else:
+                    # Get and check if item is a layout, if yes, remove all items from it
+                    sublayout = item.layout()
+                    if sublayout is not None:
+                        while sublayout.count():
+                            subitem = sublayout.takeAt(0)
+                            subwidget = subitem.widget()
+                            if subwidget is not None:
+                                subwidget.deleteLater()
+
             # Get and filter inputs
             self.alphabet = preRun.filterMachineAlphabet(
                 self.inputAlphabetText.toPlainText()
@@ -139,18 +171,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             if tmp != "No Selection":
                 self.startState = tmp
 
-            # Check evaluation characteristic radio buttons and update flag
-            if self.OneWayRadioButton.isChecked():
-                self.oneWay = True
-            elif self.BothWayRadioButton.isChecked():
-                self.oneWay = False
-
-            # Check determinism characteristic radio buttons and update flag
-            if self.DJFARadioButton.isChecked():
-                self.deterministic = True
-            elif self.NJFARadioButton.isChecked():
-                self.deterministic = False
-
             # Go through all checkboxes and check if they are selected
             # If they are, add them to list as str
             self.endStates = [checkbox.text() for checkbox in self.checkBoxList if checkbox.isChecked()]
@@ -161,11 +181,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             )
 
             self.jTransitions = preRun.filterJumpTransitions(
-                self.jumpsDeclareText.toPlainText(), self.alphabet, self.machineStates
+                self.jumpsDeclareText.toPlainText(), self.alphabet, self.machineStates, self.deterministic
             )
-
-            # Preemptively clear some variables
-            self.readSymbols.clear()
 
             # If all passed, tell the user
             self.statusText.setText("Passed!\n" "Machine has been loaded!")
@@ -182,23 +199,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
             # If all passed, flip the flag for steps
             self.machineStarted = True
-
-            # Loop to clear and remove all sublayouts in the instancesGrid layout
-            while self.instancesGrid.count():
-                # Get and check if item is a widget, if yes, delete it
-                item = self.instancesGrid.takeAt(0)
-                widget = item.widget()
-                if widget is not None:
-                    widget.deleteLater()
-                else:
-                    # Get and check if item is a layout, if yes, remove all items from it
-                    sublayout = item.layout()
-                    if sublayout is not None:
-                        while sublayout.count():
-                            subitem = sublayout.takeAt(0)
-                            subwidget = subitem.widget()
-                            if subwidget is not None:
-                                subwidget.deleteLater()
 
             # Generate labels for an instance of JFA with their content
             self.labelString = QLabel("".join(self.inputString))
@@ -254,6 +254,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             EndStateNotFoundError,
             StateDoesNotExistError,
             SymbolDoesNotExistError,
+            InvalidDeterministicFormat
         ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
@@ -477,6 +478,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.labelJumpsText.setFixedSize(158, 30)
 
         self.currentReadSymbol = ""
+        self.currentReadSymbolPos = 0
         self.currentState = ""
         self.prevInfo = ""
         self.checkBoxList = []
