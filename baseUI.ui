@@ -96,7 +96,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Input Alphabet</string>
+    <string>Input alphabet</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="machineStatesText">
@@ -135,7 +135,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Machine States</string>
+    <string>Machine states</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="inputStringText">
@@ -174,7 +174,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Input String</string>
+    <string>Input string</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_8">
@@ -192,7 +192,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Current Machine Status</string>
+    <string>Current machine status</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="statusText">
@@ -274,7 +274,7 @@
     <string notr="true">background-color: rgb(22, 149, 19);</string>
    </property>
    <property name="text">
-    <string>Run To End</string>
+    <string>Run to end</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="outputStringTextFormatted">
@@ -318,7 +318,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Formatted Input String</string>
+    <string>Formatted input string</string>
    </property>
   </widget>
   <widget class="QComboBox" name="statesCombobox">
@@ -346,7 +346,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Starting State</string>
+    <string>Initial state</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_11">
@@ -364,7 +364,7 @@
     </font>
    </property>
    <property name="text">
-    <string>End States</string>
+    <string>End states</string>
    </property>
   </widget>
   <widget class="QWidget" name="gridLayoutWidget">
@@ -518,7 +518,7 @@ configuration</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;br/&gt;&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;D F A - Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Has only one possible state it can be at at the time. Every transition and jump function allows to shift only to one state.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string>D J F A</string>
+     <string>DJFA</string>
     </property>
     <property name="checked">
      <bool>true</bool>
@@ -542,7 +542,7 @@ configuration</string>
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;The characteristics decide how an automata handles transitions and jumps from state to state&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;N F A - Non-Deterministic Finite Automata&lt;br/&gt;&lt;/span&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Can be in multiple states at a time. Any transition and jump function allows to shift into multiple states at once.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="text">
-     <string>N J F A</string>
+     <string>NJFA</string>
     </property>
     <property name="checked">
      <bool>false</bool>
@@ -661,7 +661,7 @@ configuration</string>
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;Characteristics&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;characteristics&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -731,7 +731,7 @@ configuration</string>
     </font>
    </property>
    <property name="text">
-    <string>Jump Modes:</string>
+    <string>Jump modes:</string>
    </property>
   </widget>
  </widget>
