@@ -2,7 +2,7 @@ from customExceptions import NoJumpToPerform
 
 
 def findAndRunJumpOneSide(
-    jTransitions, currentState, machineStates, inputDict, inputString
+    jTransitions, currentState, machineStates, inputDict, inputString, lastPos
 ):
     listOfEndpoints = []
 
@@ -17,8 +17,6 @@ def findAndRunJumpOneSide(
     if state not in machineStates:
         raise RuntimeError
 
-    previousInfo = [listOfEndpoints[0][0], listOfEndpoints[0][1]]
-    currentState = listOfEndpoints[0][2]
     currentReadSymbol = listOfEndpoints[0][1]
 
     if inputDict[currentReadSymbol] > 1:
@@ -26,16 +24,49 @@ def findAndRunJumpOneSide(
     else:
         inputDict[currentReadSymbol] = 0
 
-    outputString = ""
+    outputString1 = ""
+    outputString2 = ""
+    symbolPosition = lastPos
+    readSymbolIndex = -1
     symbolReached = False
-    for symbol in inputString:
-        if symbol == currentReadSymbol and not symbolReached:
-            symbolReached = True
+    for symbol in inputString[lastPos:]:
+        if symbol == "_":
+            outputString2 += "_"
+            symbolPosition += 1
             continue
 
-        outputString += symbol
+        if symbol == currentReadSymbol and not symbolReached:
+            symbolReached = True
+            outputString2 += "_"
+            readSymbolIndex = symbolPosition
+            continue
 
-    return inputDict, outputString, currentState, previousInfo
+        else:
+            outputString2 += symbol
+            symbolPosition += 1
+
+    symbolPosition = 0
+    for symbol in inputString[:lastPos]:
+        if symbol == "_":
+            outputString1 += "_"
+            symbolPosition += 1
+            continue
+
+        if symbol == currentReadSymbol and not symbolReached:
+            symbolReached = True
+            outputString1 += "_"
+            readSymbolIndex = symbolPosition
+            continue
+
+        else:
+            outputString1 += symbol
+            symbolPosition += 1
+
+    outputString = outputString1+outputString2
+    previousInfo = [listOfEndpoints[0][0], listOfEndpoints[0][1]]
+    currentState = listOfEndpoints[0][2]
+
+    return inputDict, outputString, currentState, previousInfo, readSymbolIndex
 
 
 def findAndRunJumpBothSides(
@@ -74,8 +105,8 @@ def findAndRunJumpBothSides(
         if symbol == currentReadSymbol and not symbolReached:
             symbolReached = True
             continue
-
-        outputString += symbol
+        else:
+            outputString += symbol
 
     return inputDict, outputString, currentState, previousInfo
 

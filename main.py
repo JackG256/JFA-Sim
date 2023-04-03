@@ -334,12 +334,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     self.inputString,
                     self.currentState,
                     self.prevInfo,
+                    self.lastPos
                 ) = runLogicDET.findAndRunJumpOneSide(
                     self.jTransitions,
                     self.currentState,
                     self.machineStates,
                     self.formattedInputDict,
                     self.inputString,
+                    self.lastPos
                 )
             else:
                 (
@@ -354,6 +356,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     self.formattedInputDict,
                     self.inputString,
                 )
+
+            # Update the list of read symbols (positions)
+            self.readSymbols.append([self.prevInfo[1], self.lastPos])
 
             # Update status text with user feedback
             self.statusText.setText(
@@ -386,7 +391,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Iterate over each symbol in the input string
         for i, symbol in enumerate(self.inputStringStart):
             # Check if the current symbol was just read by the JFA
-            if symbol == self.prevInfo[1] and not markedGreen and [symbol, i] not in self.readSymbols:
+            if [symbol, i] in self.readSymbols and i == self.lastPos and not markedGreen:
                 # If the current symbol was just read, format it with green color,
                 # then temporarily save the writen symbol and it's possition.
                 labelString += f"<span style='color:green'>{symbol}</span>"
@@ -406,8 +411,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 # If the symbol has not been read before, format it with black color
                 labelString += f"<span style='color:black'>{symbol}</span>"
 
-        # Add the instance of written symbol and its position to a global list
-        self.readSymbols.append(symbolToUpdate)
         # Update the content of instance string label
         self.labelString.setText(labelString)
 
@@ -423,8 +426,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             )
         )
 
+        # Check if every symbol in input string was read
+        stringHasSymbols = False
+        for symbol in self.inputString:
+            if symbol != "_":
+                stringHasSymbols = True
+
         # Once the input string is empty, check if JFA is accepted or not
-        if len(self.inputString) == 0:
+        if not stringHasSymbols:
             if self.currentState in self.endStates:
                 # Debug print
                 # TODO: Delete later
@@ -467,6 +476,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.inputStringStart = ""
         self.machineStates = ""
         self.jTransitions = ""
+        self.lastPos = 0
 
         self.labelString = ""
         self.labelState = ""
@@ -480,7 +490,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.currentReadSymbol = ""
         self.currentReadSymbolPos = 0
         self.currentState = ""
-        self.prevInfo = ""
+        self.prevInfo = []
         self.checkBoxList = []
         self.readSymbols = []
 
