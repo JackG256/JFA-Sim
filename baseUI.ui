@@ -491,7 +491,7 @@ configuration</string>
   <widget class="QGroupBox" name="DeterminismBox">
    <property name="geometry">
     <rect>
-     <x>220</x>
+     <x>340</x>
      <y>440</y>
      <width>91</width>
      <height>81</height>
@@ -552,7 +552,7 @@ configuration</string>
   <widget class="QGroupBox" name="EvaluationBox">
    <property name="geometry">
     <rect>
-     <x>320</x>
+     <x>220</x>
      <y>440</y>
      <width>111</width>
      <height>81</height>
