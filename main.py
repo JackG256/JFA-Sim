@@ -34,7 +34,6 @@ dialogOptions |= QFileDialog.DontUseNativeDialog
 # Preset a path to the configs folder in documents
 dialogDefaultDir = os.path.join(os.path.expanduser("~"), "Documents")
 dialogDefaultDir = os.path.join(dialogDefaultDir, "JFA Configurations")
-dialogDefaultFile = os.path.join(dialogDefaultDir, "JFA Configuration")
 
 
 class MainAppWindow(QMainWindow, Ui_MainWindow):
@@ -47,11 +46,10 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             os.makedirs(dialogDefaultDir)
 
         # Open fileDialog
-        # TODO: Fix only 1 filename display
         filename, _ = QFileDialog.getSaveFileName(
             None,
             "Save Configuration File",
-            dialogDefaultFile,
+            dialogDefaultDir,
             "JFA Config Files (*.JFACON)",
             options=dialogOptions,
         )
@@ -77,8 +75,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # TODO: Fix only 1 filename display
         filename, _ = QFileDialog.getOpenFileName(
             None,
-            "Save Configuration File",
-            dialogDefaultFile,
+            "Load Configuration File",
+            dialogDefaultDir,
             "JFA Config Files (*.JFACON)",
             options=dialogOptions,
         )
