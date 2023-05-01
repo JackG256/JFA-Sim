@@ -55,6 +55,7 @@ def filterInputString(unfiltered, alphabet):
                in machine alphabet
 
     :return unfiltered: Machine recognized input string in the form of a list of symbols
+    :return formattedDict: Dictionary of number of occurences of each unique symbol
     """
 
     # Split string into char list
