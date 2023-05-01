@@ -1,9 +1,7 @@
 from customExceptions import NoJumpToPerform
 
 
-def findAndRunJumpOneSide(
-    jTransitions, currentState, machineStates, inputDict, inputString, lastPos
-):
+def findAndRunJumpOneSide(jTransitions, currentState, machineStates, inputDict, inputString, lastPos):
     listOfEndpoints = []
 
     for entry in jTransitions:
@@ -35,7 +33,7 @@ def findAndRunJumpOneSide(
             symbolPosition += 1
             continue
 
-        if symbol == currentReadSymbol and not symbolReached:
+        elif symbol == currentReadSymbol and not symbolReached:
             symbolReached = True
             outputString2 += "_"
             readSymbolIndex = symbolPosition
@@ -69,9 +67,7 @@ def findAndRunJumpOneSide(
     return inputDict, outputString, currentState, previousInfo, readSymbolIndex
 
 
-def findAndRunJumpBothSides(
-    jTransitions, currentState, machineStates, inputDict, inputString
-):
+def findAndRunJumpBothSides(jTransitions, currentState, machineStates, inputDict, inputString):
     listOfEndpoints = []
     usedSymbol = ""
 
@@ -100,15 +96,25 @@ def findAndRunJumpBothSides(
         inputDict[currentReadSymbol] = 0
 
     outputString = ""
+    symbolPosition = 0
+    readSymbolIndex = -1
     symbolReached = False
     for symbol in inputString:
-        if symbol == currentReadSymbol and not symbolReached:
+        if symbol == "_":
+            outputString += "_"
+            symbolPosition += 1
+
+        elif symbol == currentReadSymbol and not symbolReached:
             symbolReached = True
+            outputString += "_"
+            readSymbolIndex = symbolPosition
             continue
+
         else:
             outputString += symbol
+            symbolPosition += 1
 
-    return inputDict, outputString, currentState, previousInfo
+    return inputDict, outputString, currentState, previousInfo, readSymbolIndex
 
 
 def findNextJumps(jTransitions, currentState, inputString):
