@@ -112,7 +112,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     Generates the instance of JFA in the instances layout.
     """
 
-    # TODO: Updates this ^ to not break non-deterministic logic
     def startAction(self):
         try:
             # Check evaluation characteristic radio buttons and update flag
