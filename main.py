@@ -176,15 +176,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             
             """
 
-            # For each key in formatted input string dictionary, put key in output string, and get occurence
-            # value based on index of same key.
-            # NOTE: String used purely for debug prints
-            formattedInputStrToPrint = ""
-            for key in self.formattedInputDict:
-                formattedInputStrToPrint += f"// {key} ^ {self.formattedInputDict[key]} "
 
-            # Final string detail
-            formattedInputStrToPrint += "//"
 
             # Get currently selected start and end states
             tmp = self.statesCombobox.currentText()
@@ -208,6 +200,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Get list of provided transitions
             self.jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), self.alphabet,
                                                              self.machineStates, self.deterministic)
+
+            # Get formmated dictionary of occurences
+            formattedInputStrToPrint = runLogicBoth.generateFormattedInputDictionary(self.formattedInputDict)
 
             # Update the formatted input string text field
             self.outputStringTextFormatted.setText(formattedInputStrToPrint)
