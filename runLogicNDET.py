@@ -23,6 +23,7 @@ def generateAdjacencyMatrix(jTransitions, iterationMax, inputString, startState,
                 if readSymbols == sortedString:
                     break
 
+                path = ""
                 # TODO: Add checks for one-way / two way automata. Right now they are not checked
 
     return path
