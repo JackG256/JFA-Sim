@@ -8,9 +8,9 @@ def filterMachineAlphabet(unfiltered):
     and returned as a formatted list
 
     :param unfiltered: string value from field
-    :exception EmptyFieldError: Custom exception, raised when input field is empty, takes string name of field as input
-    :exception InvalidAlphabetFormatError: Custom exception, raised when there is more than 1 symbol in any list entry
-    :exception InvalidSymbolInAlphabetError: Custom exceptions, raised when any symbol in list
+    :raises EmptyFieldError: Custom exception, raised when input field is empty, takes string name of field as input
+    :raises InvalidAlphabetFormatError: Custom exception, raised when there is more than 1 symbol in any list entry
+    :raises InvalidSymbolInAlphabetError: Custom exceptions, raised when any symbol in list
                is not alphabetic or numeric value
 
     :return unfiltered: Alphabet in form of a list of all provided symbols
@@ -50,8 +50,8 @@ def filterInputString(unfiltered, alphabet):
 
     :param unfiltered: string value from input field
     :param alphabet: a list of all recognized letters
-    :exception EmptyFieldError: Custom exception, raised when input field is empty, takes string name of field as input
-    :exception InputSymbolNotInAlphabetError: Custom expection, raised when any inputted symbol is not pressed
+    :raises EmptyFieldError: Custom exception, raised when input field is empty, takes string name of field as input
+    :raises InputSymbolNotInAlphabetError: Custom expection, raised when any inputted symbol is not pressed
                in machine alphabet
 
     :return unfiltered: Machine recognized input string in the form of a list of symbols
@@ -145,19 +145,21 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
     Input is filtered into a list and ran through a few test checks for validity and consistency
     and returned as a formatted list containing list entries of each function
 
+    :param deterministic: Flag that indicates machine is running in deterministic mode
     :param unfiltered: string value from input field
     :param alphabet: a list of all recognized letters
     :param machineStates: a list of all recognized machine states
-    :exception StateDoesNotExistError: Custom exception, raised when specified state in function
+    :raises StateDoesNotExistError: Custom exception, raised when specified state in function
                is not present within machineStates list, takes string value of non-existent state as input
-    :exception SymbolDoesNotExistsError: Custom exception, raised when specified symbol in function
+    :raises SymbolDoesNotExistsError: Custom exception, raised when specified symbol in function
                is not presen within alphabet list, takes string value of non-existent symbol as input
-    :exception InvalidDeterministcFormat: Custom exception, raised when multiple transitions from same state
+    :raises InvalidDeterministcFormat: Custom exception, raised when multiple transitions from same state
                are detected. Prevent running non-deterministic configuration in deterministic mode.
     :return:
     """
 
     # Remove redundant whitespaces, split by new line and split each separate line by separator characters
+    # after striping potential trailing newline symbol
     filteredJumpEntriesList = []
     for entry in unfiltered.replace(" ", "").rstrip().split("\n"):
         filteredJumpEntriesList.append(entry.split("-"))
