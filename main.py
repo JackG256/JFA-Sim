@@ -176,8 +176,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             
             """
 
-
-
             # Get currently selected start and end states
             tmp = self.statesCombobox.currentText()
             # Prevent empty selection
@@ -426,7 +424,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     ) = runLogicDET.findAndRunJumpOneSide(
                         self.jTransitions,
                         self.currentState,
-                        self.machineStates,
                         self.formattedInputDict,
                         self.inputString,
                         self.lastPos
@@ -442,9 +439,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     ) = runLogicDET.findAndRunJumpBothSides(
                         self.jTransitions,
                         self.currentState,
-                        self.machineStates,
                         self.formattedInputDict,
-                        self.inputString,
+                        self.inputString
                     )
 
             # Non-deterministic approach
