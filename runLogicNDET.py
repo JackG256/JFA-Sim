@@ -1,37 +1,65 @@
 import numpy as np
 
 
-def generateAdjacencyMatrix(jTransitions, iterationMax, inputString, startState, endStates):
+def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState, endStates):
+    """
+    Generate the adjacency matrix for a Jumping Finite Automaton (JFA) and find a path
+    from the start state to one of the end states that matches a given input string.
+
+    :param jTransitions: A list containing the transitions of the automata
+    :param iterationMax: The maximum number of iterations to perform when generating the adjacency matrix
+    :param inputString: The input string to match
+    :param startState: The starting state for the path
+    :param endStates: A list of end states to search for a path to
+    :return The path from the start state to one of the end states
+    that matches the input string, or an empty string if no such path exists
+    """
+
+    # Create an adjacency matrix of first rank and sorted list of active states (used as coordinates)
     initialMatrix, loadedStates = createInitialMatrix(jTransitions)
 
+    # Transform nested list into numpy matrix for easier calculation
     nextMatrix = np.array(initialMatrix)
-    matrixConstant = nextMatrix
 
     # Raise adjacency matrix to the power of
     # number of symbols in input string
     nextMatrix = np.linalg.matrix_power(nextMatrix, iterationMax)
 
+    # Get coordinate of initial state
     startStateCoord = loadedStates.index(startState)
+    # Get coordinates of end states
     endStatesCoords = [loadedStates.index(endstate) for endstate in endStates]
+
     path = ""
+    # Iterativelly check over all coordinates if value of cell is greater than 1
+    # (a path in n moves exist from start state to end state exists)
     for xCoord in endStatesCoords:
         if nextMatrix[startStateCoord, xCoord] >= 1:
             # Try to find first accepting path
             path = findPath(jTransitions, startState, loadedStates[xCoord], iterationMax)
 
+            # if path exists, check if symbols read along the way match up symbols in input string
             if path is not None:
                 readSymbols = ''.join(sorted(path[1]))
                 sortedString = ''.join(sorted(inputString))
+                # If yes, break and return
                 if readSymbols == sortedString:
                     break
 
+                # If no, clear and try again
                 path = ""
-                # TODO: Add checks for one-way / two way automata. Right now they are not checked
 
     return path
 
 
 def createInitialMatrix(statePaths):
+    """
+    Generate an initial adjacency matrix for an automaton based on its transition paths.
+
+    :param statePaths: A list of transition paths for the JFA.
+    :return: A tuple containing the initial adjacency matrix and a list of loaded states in alphabetical order.
+    """
+
     # Helping variable to store list of active states
     loadedStates = []
 
@@ -50,8 +78,6 @@ def createInitialMatrix(statePaths):
 
     # Create a 2D matrix with zeroes to store data into
     initialMatrix = [[0 for _ in range(xySize)] for _ in range(xySize)]
-    # Create a 2D matrix with empty string spaces to store symbol data into
-    pathMatrix = [["" for _ in range(xySize)] for _ in range(xySize)]
 
     # Iterate through active states and fill adjacency matrix if paths exist
     for i, stateY in enumerate(loadedStates):
@@ -152,16 +178,17 @@ Too complicated, was scrapped
 
 def findPath(transitions, startState, endState, moves, path=None, symbols=None):
     """
-    :param transitions: an oriented graph represented as a list of values
-                        in the format of [[stateX], [symbol], [stateY]]
-    :param startState: the starting state
-    :param endState: the ending state
-    :param moves: the number of moves allowed
-    :param path: a list to store the states in the path
-    :param symbols: a list to store the symbols on the edges of the path
-    :return: a list containing a list of states representing a path from startState to endState
-            in the graph in n moves and a list of symbols on the "edges" of the path (symbols read),
-            or None if no such path exists
+    Find a path from the startState to the endState in a graph represented by a list of transitions.
+
+    :param transitions: A list of transitions in the format of [[stateX], [symbol], [stateY]].
+    :param startState: The starting state of the path.
+    :param endState: The ending state of the path.
+    :param moves: The maximum number of moves allowed to reach the end state.
+    :param path: (optional) A list to store the states in the path.
+    :param symbols: (optional) A list to store the symbols on the edges of the path.
+    :return: A list containing a list of states representing a path from startState to endState
+             in the graph in n moves and a list of symbols on the "edges" of the path (symbols read),
+             or None if no such path exists.
     """
 
     # Initialize the path and symbols lists if they are not provided
