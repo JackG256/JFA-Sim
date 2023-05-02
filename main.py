@@ -19,6 +19,7 @@ from customExceptions import *
 import preRun
 import runLogicDET
 import runLogicNDET
+import runLogicBoth
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
@@ -34,12 +35,14 @@ dialogDefaultDir = os.path.join(dialogDefaultDir, "JFA Configurations")
 
 
 class MainAppWindow(QMainWindow, Ui_MainWindow):
-    """
-    Method called for saving JFA context to a file.
-    Saves important global variables to a custom .JFACON file.
-    """
 
     def saveConfigAction(self):
+
+        """
+        Method called for saving JFA context to a file.
+        Saves important global variables to a custom .JFACON file.
+        """
+
         # Check if default_dir exists, and create it if it doesn't
         if not os.path.exists(dialogDefaultDir):
             os.makedirs(dialogDefaultDir)
@@ -68,13 +71,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
                 print("Data saved to file:", filename)
 
-    """
-    Method called for loading JFA context from a file.
-    Loads and updates important global variables based on content
-    from a custom .JFACON file
-    """
-
     def loadConfigAction(self):
+
+        """
+        Method called for loading JFA context from a file.
+        Loads and updates important global variables based on content
+        from a custom .JFACON file
+        """
+
         # Check if default_dir exists, and create it if it doesn't
         if not os.path.exists(dialogDefaultDir):
             os.makedirs(dialogDefaultDir)
@@ -105,14 +109,15 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             self.machineStatesText.setText(self.machineStates)
             self.jumpsDeclareText.setText(self.jTransitions)
 
-    """
-    Method called when loading the context of a JFA configuration from frontend.
-    Takes user inputs, runs filters and integrity checks, updates global variables.
-    Checks other input fields and updates global flags.
-    Generates the instance of JFA in the instances layout.
-    """
-
     def startAction(self):
+
+        """
+        Method called when loading the context of a JFA configuration from frontend.
+        Takes user inputs, runs filters and integrity checks, updates global variables.
+        Checks other input fields and updates global flags.
+        Generates the instance of JFA in the instances' layout.
+        """
+
         try:
             # Check evaluation characteristic radio buttons and update flag
             if self.OneWayRadioButton.isChecked():
@@ -308,22 +313,24 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
-    """
-    Called when the exit button is pressed.
-    Closes the window and terminates the process.
-    """
-
     @staticmethod
     def exitAction():
+
+        """
+        Called when the exit button is pressed.
+        Closes the window and terminates the process.
+        """
+
         sys.exit(1)
 
-    """
-    Method called for loading and generating checkbox instances.
-    Called everytime the "Machine States" textbox is updated
-    Generated based on user input in the 'Machine States' field.
-    """
-
     def loadStatesAction(self):
+
+        """
+        Method called for loading and generating checkbox instances.
+        Called everytime the "Machine States" textbox is updated
+        Generated based on user input in the 'Machine States' field.
+        """
+
         # Pull inputed states from text box and split them into a list via a splitting symbol
         states = self.machineStatesText.toPlainText().replace("\n", "").split(";")
 
@@ -380,13 +387,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 col = 0
                 row += 1
 
-    """
-    Method called to enable / disable correct radio buttons based on evaluation selection
-    Selecting One-Way disables NJFA
-    Selecting Two-ways reenables it
-    """
-
     def updateRadioButtons(self):
+
+        """
+        Method called to enable / disable correct radio buttons based on evaluation selection
+        Selecting One-Way disables NJFA
+        Selecting Two-ways reenables it
+        """
+
         if self.OneWayRadioButton.isChecked():
             self.NJFARadioButton.setEnabled(False)
 
@@ -396,13 +404,14 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         elif self.BothWayRadioButton.isChecked():
             self.NJFARadioButton.setEnabled(True)
 
-    """
-    Method called for simulating a logical step/jump in the JFA
-    Calls specific method based on user selection and updates specific variable
-    to provide user feedback
-    """
-
     def stepAction(self):
+
+        """
+        Method called for simulating a logical step/jump in the JFA
+        Calls specific method based on user selection and updates specific variable
+        to provide user feedback
+        """
+
         # Check to see if JFA was loaded
         if not self.machineStarted:
             return
@@ -573,20 +582,22 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Flip the flag to prevent running logic on empty data
             self.machineStarted = False
 
-    """
-    Method to loop steps until the machine is finished evaluating
-    """
-
     def runToEndAction(self):
+
+        """
+        Method to loop steps until the machine is finished evaluating
+        """
+
         while self.machineStarted:
             self.stepAction()
 
-    """
-    MainApp class constructor.
-    Sets all global variables and also edits process information.
-    """
-
     def __init__(self):
+
+        """
+        MainApp class constructor.
+        Sets all global variables and also edits process information.
+        """
+
         # Generators for application class
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
