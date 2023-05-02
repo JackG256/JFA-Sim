@@ -129,3 +129,13 @@ class NoJumpToPerform(Exception):
         return f"Current machine state has no jump to perform: '{self.state}'"
 
     pass
+
+
+class NoAcceptPathFound(Exception):
+    """No accepting path exists for current non-deterministic setup"""
+
+    def __init__(self, *args):
+        super().__init__(args)
+
+    def __str__(self):
+        return f"Current automata configuration contains no accepting path.\n<b>String automatically refused!<b>"
