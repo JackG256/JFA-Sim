@@ -156,7 +156,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                                                                                  self.alphabet)
             # Save the original input string for reference
             # This prevents incorrect info when input string gets updated in runtime
-            self.inputStringStart = self.inputString
+            self.inputStringFull = self.inputString
 
             """
             Deprecated/Obsolete code
@@ -191,7 +191,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
             # Go through all checkboxes and check if they are selected
             # If they are, add them to list as str
-            # NOTE: This doesn't have to be preemptivelly cleared due to
+            # NOTE: This doesn't have to be preemptively cleared due to
             # implicit assignment (overwrites values from previous runs)
             self.endStates = [checkbox.text() for checkbox in self.checkBoxList if checkbox.isChecked()]
 
@@ -216,7 +216,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
             # Generate labels for an instance of JFA with their content
             # Label containing input string
-            self.labelString = QLabel("".join(self.inputStringStart))
+            self.labelString = QLabel("".join(self.inputStringFull))
 
             # Label containing current state (starting state)
             self.labelState = QLabel(f"Current state: <b>{self.startState}</b>")
@@ -230,53 +230,66 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     )
             )
 
-            # Main if / else blocks for generating instances
-            # If deterministic behaviour, generate instance
-            if self.deterministic:
-                # Format labels correctly
-                self.labelString.setFont(QFont("Arial", 14, QFont.Bold))
-                self.labelString.setAlignment(Qt.AlignCenter)
-                self.labelString.setFixedSize(158, 20)
+            # Main block for generating instances
+            # Format labels correctly
+            self.labelString.setFont(QFont("Arial", 14, QFont.Bold))
+            self.labelString.setAlignment(Qt.AlignCenter)
+            self.labelString.setFixedSize(158, 20)
 
-                self.labelState.setFont(QFont("Arial", 10, QFont.Bold))
-                self.labelState.setAlignment(Qt.AlignCenter)
-                self.labelState.setFixedSize(158, 17)
+            self.labelState.setFont(QFont("Arial", 10, QFont.Bold))
+            self.labelState.setAlignment(Qt.AlignCenter)
+            self.labelState.setFixedSize(158, 17)
 
-                self.labelJumps.setFont(QFont("Arial", 12, QFont.Bold))
-                self.labelJumps.setAlignment(Qt.AlignCenter)
-                self.labelJumps.setFixedSize(158, 134)
+            self.labelJumps.setFont(QFont("Arial", 12, QFont.Bold))
+            self.labelJumps.setAlignment(Qt.AlignCenter)
+            self.labelJumps.setFixedSize(158, 134)
 
-                # Create a sub-layout object containing labels
-                layout = QVBoxLayout()
-                # Put all labels into the sub-layout
-                layout.addWidget(self.labelString)
-                layout.addWidget(self.labelState)
-                layout.addWidget(self.labelJumpsText)
-                layout.addWidget(self.labelJumps)
+            # Create a sub-layout object containing labels
+            layout = QVBoxLayout()
+            # Put all labels into the sub-layout
+            layout.addWidget(self.labelString)
+            layout.addWidget(self.labelState)
+            layout.addWidget(self.labelJumpsText)
+            layout.addWidget(self.labelJumps)
 
-                # Assign the sub-layout to a layout widget
-                layoutWidget = QWidget()
-                layoutWidget.setFixedSize(158, 201)
-                layoutWidget.setLayout(layout)
+            # Assign the sub-layout to a layout widget
+            layoutWidget = QWidget()
+            layoutWidget.setFixedSize(158, 201)
+            layoutWidget.setLayout(layout)
 
-                # Add the widget to a list of widgets
-                # Used to reset instances in layout if new machine loaded
-                self.instancesGrid.addWidget(layoutWidget)
+            # Add the widget to a list of widgets
+            # Used to reset instances in layout if new machine loaded
+            self.instancesGrid.addWidget(layoutWidget)
 
-            # Else path if non-deterministic behaviour
-            else:
+            # If non-deterministic behaviour, try and find an accepting path
+            if not self.deterministic:
                 # Get the earliest possible path for one instance of non-deterministic automaton
-                path = runLogicNDET.generateAdjacencyMatrix(self.jTransitions, len(self.inputStringStart),
-                                                            self.inputStringStart, self.startState, self.endStates)
+                path = runLogicNDET.generateAdjMatrixAndPath(self.jTransitions, len(self.inputStringFull),
+                                                             self.inputStringFull, self.startState, self.endStates)
+
+                # Reset global counter for non-deterministic runtime
+                self.nonDethIter = 0
+
                 # Check if method didn't return empty string (no path found)
                 if path != "":
-                    print(f"\n{path[0]}\n\n{path[1]}")
+                    # If path was found, save values and flip global flags
+                    self.nonDetPathFound = True
+                    self.nonDetPath = path[0]
+                    self.nonDetSymbols = path[1]
+                    print(f"Found acceptable path in non-deterministic evaluation:"
+                          f"\n{self.nonDetPath}\n\n{self.nonDetSymbols}")
+
                 else:
-                    print("WRONG")
+                    # If path was not found, raise exception to generate user feedback
+                    self.nonDetPathFound = False
+                    print("Didn't manage to find an acceptable path in non-deterministic evaluation."
+                          " Throwing exception")
+                    raise NoAcceptPathFound()
 
             # If all fetches and checks passed, inform the user and flig global flag
             self.statusText.setText("Passed!\n" "Machine has been loaded!")
 
+            # Global flag that loading the machine was succesful
             self.machineStarted = True
 
         # Except branch to catch all custom exceptions and print them to status field
@@ -290,7 +303,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 EndStateNotFoundError,
                 StateDoesNotExistError,
                 SymbolDoesNotExistError,
-                InvalidDeterministicFormat
+                InvalidDeterministicFormat,
+                NoAcceptPathFound
         ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
@@ -298,6 +312,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     Called when the exit button is pressed.
     Closes the window and terminates the process.
     """
+
     @staticmethod
     def exitAction():
         sys.exit(1)
@@ -307,6 +322,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     Called everytime the "Machine States" textbox is updated
     Generated based on user input in the 'Machine States' field.
     """
+
     def loadStatesAction(self):
         # Pull inputed states from text box and split them into a list via a splitting symbol
         states = self.machineStatesText.toPlainText().replace("\n", "").split(";")
@@ -369,6 +385,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     Selecting One-Way disables NJFA
     Selecting Two-ways reenables it
     """
+
     def updateRadioButtons(self):
         if self.OneWayRadioButton.isChecked():
             self.NJFARadioButton.setEnabled(False)
@@ -393,35 +410,68 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Try/Catch for custom exceptions
         try:
             # Call the main method based on radio button selection
-            if self.oneWay:
-                (
-                    self.formattedInputDict,
-                    self.inputString,
-                    self.currentState,
-                    self.prevInfo,
-                    self.lastPos
-                ) = runLogicDET.findAndRunJumpOneSide(
-                    self.jTransitions,
-                    self.currentState,
-                    self.machineStates,
-                    self.formattedInputDict,
-                    self.inputString,
-                    self.lastPos
-                )
+            # Deterministic approach
+            if self.deterministic:
+                if self.oneWay:
+                    (
+                        self.formattedInputDict,
+                        self.inputString,
+                        self.currentState,
+                        self.prevInfo,
+                        self.lastPos
+                    ) = runLogicDET.findAndRunJumpOneSide(
+                        self.jTransitions,
+                        self.currentState,
+                        self.machineStates,
+                        self.formattedInputDict,
+                        self.inputString,
+                        self.lastPos
+                    )
+                # Two-ways logic
+                else:
+                    (
+                        self.formattedInputDict,
+                        self.inputString,
+                        self.currentState,
+                        self.prevInfo,
+                        self.lastPos
+                    ) = runLogicDET.findAndRunJumpBothSides(
+                        self.jTransitions,
+                        self.currentState,
+                        self.machineStates,
+                        self.formattedInputDict,
+                        self.inputString,
+                    )
+
+            # Non-deterministic approach
             else:
+                # Increment global index counter
+                self.nonDethIter += 1
+
+                # Get index values for previous and current information
+                previousIndex = self.nonDethIter - 1
+                currentIndex = self.nonDethIter
+
+                # Manually fill the previous info variable
+                # NOTE: This was normally done in a method, since we don't need to
+                # search for a step to be done, we can just add it manually
+                self.prevInfo = [self.nonDetPath[previousIndex], self.nonDetSymbols[previousIndex]]
+
+                # Call a function to get index of currently read symbol in input string
+                # NOTE: This was also normally done in a method, but we cannot call it here because it modifies
+                # the input string in deterministic way
                 (
-                    self.formattedInputDict,
                     self.inputString,
-                    self.currentState,
-                    self.prevInfo,
-                    self.lastPos
-                ) = runLogicDET.findAndRunJumpBothSides(
-                    self.jTransitions,
-                    self.currentState,
-                    self.machineStates,
-                    self.formattedInputDict,
+                    self.lastPos,
+                    self.formattedInputDict
+                ) = runLogicNDET.findNextSymbolPosition(
+                    self.nonDetSymbols[previousIndex],
                     self.inputString,
+                    self.formattedInputDict
                 )
+
+                # update current state variable
+                self.currentState = self.nonDetPath[currentIndex]
 
             # Update the list of read symbols (positions)
             self.readSymbols.append([self.prevInfo[1], self.lastPos])
@@ -431,6 +481,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 f"A jump has been performed!\n{self.prevInfo[0]} -> {self.currentState}"
                 f" via reading {self.prevInfo[1]}")
 
+        # Custom exception handling
         except NoJumpToPerform as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
@@ -457,7 +508,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # symbolToUpdate = ""
 
         # Iterate over each symbol in the input string
-        for i, symbol in enumerate(self.inputStringStart):
+        for i, symbol in enumerate(self.inputStringFull):
             # Check if the current symbol was just read by the JFA
             if [symbol, i] in self.readSymbols and i == self.lastPos and not markedGreen:
                 # If the current symbol was just read, format it with green color,
@@ -525,6 +576,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     """
     Method to loop steps until the machine is finished evaluating
     """
+
     def runToEndAction(self):
         while self.machineStarted:
             self.stepAction()
@@ -533,50 +585,67 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
     MainApp class constructor.
     Sets all global variables and also edits process information.
     """
+
     def __init__(self):
+        # Generators for application class
         QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
 
+        # Global flags and variables to run correct code
         self.machineStarted = False
         self.oneWay = True
         self.deterministic = True
+
+        # Global flags and variables purely for non-deterministic runtime
+        self.nonDetPathFound = False
+        self.nonDetPath = []
+        self.nonDetSymbols = []
+        self.nonDethIter = -1
+
+        # Global variables regarding automaton
         self.startState = ""
         self.endStates = []
-
         self.alphabet = ""
         self.inputString = ""
-        self.inputStringStart = ""
+        self.inputStringFull = ""
         self.machineStates = ""
         self.jTransitions = ""
         self.lastPos = 0
+        self.currentReadSymbol = ""
+        self.currentReadSymbolPos = 0
+        self.currentState = ""
+        self.prevInfo = []
+        self.formattedInputDict = []
 
+        # Global list to keep track of other values
+        # List of read symbols to prevent multiple green symbols at one step
+        self.readSymbols = []
+        # List of end state checkboxes, used for correct deletion and generation
+        self.checkBoxList = []
+
+        # Global variables for labels for instance layout
         self.labelString = ""
         self.labelState = ""
         self.labelJumpsText = QLabel("Possible jumps\nfrom state:\n")
         self.labelJumps = ""
 
+        # Manual formatting of a label
         self.labelJumpsText.setFont(QFont("Arial", 10, QFont.Bold))
         self.labelJumpsText.setAlignment(Qt.AlignCenter)
         self.labelJumpsText.setFixedSize(158, 30)
 
-        self.currentReadSymbol = ""
-        self.currentReadSymbolPos = 0
-        self.currentState = ""
-        self.prevInfo = []
-        self.checkBoxList = []
-        self.readSymbols = []
-
-        self.formattedInputDict = []
-
+        # Connect control action to corresponding control buttons
         self.exitButton.clicked.connect(self.exitAction)
         self.startButton.clicked.connect(self.startAction)
         self.stepButton.clicked.connect(self.stepAction)
         self.runToEndButton.clicked.connect(self.runToEndAction)
 
+        # Connect file management action to corresponding file buttons
         self.SaveButton.clicked.connect(self.saveConfigAction)
         self.LoadButton.clicked.connect(self.loadConfigAction)
 
+        # Connect radio buttons update action to corresponding radio buttons
         self.BothWayRadioButton.clicked.connect(self.updateRadioButtons)
         self.OneWayRadioButton.clicked.connect(self.updateRadioButtons)
 
