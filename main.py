@@ -163,19 +163,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # This prevents incorrect info when input string gets updated in runtime
             self.inputStringFull = self.inputString
 
-            """
-            Deprecated/Obsolete code
-            
-            # # Code to get information about shortened string, works with symbol key-value dictionary
-            # # Get keys
-            # keys = list(dict.fromkeys(self.inputString))
-            # values = []
-            # for key in keys:
-            #     # Get occurence values for each key
-            #     values.append(self.formattedInputDict[key])
-            
-            """
-
             # Get currently selected start and end states
             tmp = self.statesCombobox.currentText()
             # Prevent empty selection
@@ -206,7 +193,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             self.outputStringTextFormatted.setText(formattedInputStrToPrint)
 
             # Debug prints
-            # TODO: Potentially delete later
             print(
                 f"\nSpecified alphabet: {self.alphabet}\nSpecified input str: {self.inputString}\nSpecified states:"
                 f" {self.machineStates}\nSpecified starting state: {self.startState}\n"
@@ -347,12 +333,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Default value assignment
         self.statesCombobox.addItem("No Selection")
 
-        # Failsafe if empty text box
-        # NOTE: This seems to be redundant, but I am too afraid
-        # to delete it in fear it might break everything
-        if len(states) == 1 and states[0] == "":
-            return False
-
         # Helping sizing variables for generating checkboxes
         num_cols = 4
         row = 0
@@ -486,8 +466,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
 
         # Debug prints
-        # TODO: Remove if unnecesary
-
         # Print info about jump and automata
         print(f"\nA jump has been performed\nNew formatted string:")
 
@@ -500,35 +478,12 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             f"\nNew input string: {self.inputString}"
             f"\nNew current state: {self.currentState}")
 
-        # Initialize/reinitialize the output string to put in label
-        labelString = ""
-
-        # Helping flag to prevent multiple green symbols
-        markedGreen = False
-        # symbolToUpdate = ""
-
-        # Iterate over each symbol in the input string
-        for i, symbol in enumerate(self.inputStringFull):
-            # Check if the current symbol was just read by the JFA
-            if [symbol, i] in self.readSymbols and i == self.lastPos and not markedGreen:
-                # If the current symbol was just read, format it with green color,
-                # then temporarily save the writen symbol and it's possition. (now obsolete)
-                labelString += f"<span style='color:green'>{symbol}</span>"
-                # symbolToUpdate = [symbol, i]
-
-                # Flip the bool value to prevent multiple green symbols
-                markedGreen = True
-
-                # After that, skip this iteration
-                continue
-
-            # Check if the symbol has been read before by the JFA before
-            if [symbol, i] in self.readSymbols:
-                # If the symbol has been read before, format it with red color
-                labelString += f"<span style='color:red'>{symbol}</span>"
-            else:
-                # If the symbol has not been read before, format it with black color
-                labelString += f"<span style='color:black'>{symbol}</span>"
+        # Get new content for instance string label
+        labelString = runLogicBoth.createFormattedStringLabel(
+            self.inputStringFull,
+            self.readSymbols,
+            self.lastPos
+        )
 
         # Update the content of instance string label
         self.labelString.setText(labelString)
