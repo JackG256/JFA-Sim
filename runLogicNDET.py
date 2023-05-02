@@ -202,3 +202,48 @@ def findPath(transitions, startState, endState, moves, path=None, symbols=None):
                     return result
         # If no path is found, return None
         return None
+
+
+def findNextSymbolPosition(currentReadSymbol, inputString, inputDict):
+    """
+    Find the index position of a given symbol in a string.
+
+    :param currentReadSymbol: The symbol to search for in the input string.
+    :param inputString: The string in which to search for the symbol.
+    :param inputDict: A dictionary containing the number of occurrences of each symbol in the input string.
+    :return: A tuple containing the modified string, the position of the next occurrence of the symbol, and the updated
+             dictionary.
+    """
+
+    # Variables declaration
+    outputString = ""
+    symbolPosition = 0
+    readSymbolIndex = -1
+    symbolReached = False
+
+    # Go through all symbols in input string
+    for symbol in inputString:
+        # If symbol is empty, write to output and continue
+        if symbol == "_":
+            outputString += "_"
+            symbolPosition += 1
+
+        # If symbol matches current symbol for first time, replace by empty, save index, flip flag and continue
+        elif symbol == currentReadSymbol and not symbolReached:
+            symbolReached = True
+            outputString += "_"
+            readSymbolIndex = symbolPosition
+            continue
+
+        # Otherwise write to output and continue
+        else:
+            outputString += symbol
+            symbolPosition += 1
+
+    # Check if value in dictionary and update
+    if inputDict[currentReadSymbol] > 1:
+        inputDict[currentReadSymbol] -= 1
+    else:
+        inputDict[currentReadSymbol] = 0
+
+    return outputString, readSymbolIndex, inputDict
