@@ -501,6 +501,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         for symbol in self.inputString:
             if symbol != "_":
                 stringHasSymbols = True
+                break
 
         # Once the input string is empty, check if JFA is accepted or not,
         # then print information to status textbox
