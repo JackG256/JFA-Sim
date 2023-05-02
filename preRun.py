@@ -139,13 +139,11 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
 
     # Test checks if information in jump transition is valid
     for entry in filteredJumpEntriesList:
-        if not helpFirstStateWasProvided(entry, machineStates):
+        if entry[0] not in machineStates:
             raise StateDoesNotExistError(entry[0])
-
-        if not helpSecondStateWasProvided(entry, machineStates):
+        if entry[2] not in machineStates:
             raise StateDoesNotExistError(entry[2])
-
-        if not helpSymbolWasProvided(entry, alphabet):
+        if entry[1] not in alphabet:
             raise SymbolDoesNotExistError(entry[1])
 
     # If the automaton runs nondeterministically, return
@@ -162,82 +160,3 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
         jumpsByOriginDestination.append([entry[0], entry[1]])
 
     return filteredJumpEntriesList
-
-
-def helpFirstStateWasProvided(inputtedJumpTransition, machinestates):
-    """
-    Helping function to determine whether a state provided in a jump function actually exists within automata context
-    Tests only first state
-
-    :param inputtedJumpTransition: Specified jump transition, List in format of 'state - symbol - state'
-    :param machinestates: List of all specified machine states
-    :return: True if first state exists withing provided machine states,
-             either as normal state, start state or end state.
-             Otherwise false
-    """
-
-    # Get first state from function
-    firstState = inputtedJumpTransition[0]
-
-    # Find state in machine states list
-    # Since some states are marked with an additional first symbol,
-    # some checks add those symbols for consistency
-    if firstState in machinestates:
-        return True
-    elif "@" + firstState in machinestates:
-        return True
-    elif "!" + firstState in machinestates:
-        return True
-
-    # Default branch, state was not found
-    return False
-
-
-def helpSecondStateWasProvided(inputtedJumpTransition, machinestates):
-    """
-    Helping function to determine whether a state provided in a jump function actually exists within automata context
-    tests only sencond state
-
-    :param inputtedJumpTransition: Specified jump transition, List in format of 'state - symbol - state'
-    :param machinestates: List of all specified machine states
-    :return: True if second state exists withing provided machine states,
-             either as normal state, start state or end state.
-             Otherwise false
-    """
-
-    # Get second state from function
-    secondState = inputtedJumpTransition[2]
-
-    # Find state in machine states list
-    # Since some states are marked with an additional first symbol,
-    # some checks add those symbols for consistency
-    if secondState in machinestates:
-        return True
-    elif "@" + secondState in machinestates:
-        return True
-    elif "!" + secondState in machinestates:
-        return True
-
-    # Default branch, state was not found
-    return False
-
-
-def helpSymbolWasProvided(inputtedJumpTransition, alphabet):
-    """
-    Helping function to determine whether a symbol provided in a jump function actually exists within automata context
-
-    :param inputtedJumpTransition: Specified jump transition, List in format of 'state - symbol - state'
-    :param alphabet: List of all recognized symbols
-    :return: True if symbol exists withing provided alphabet,
-             Otherwise false
-    """
-
-    # Get required symbol from function
-    symbol = inputtedJumpTransition[1]
-
-    # Find symbol in alphabet
-    if symbol in alphabet:
-        return True
-
-    # Default branch, symbol was not found
-    return False
