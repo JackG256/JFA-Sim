@@ -364,6 +364,21 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 row += 1
 
     """
+    Method called to enable / disable correct radio buttons based on evaluation selection
+    Selecting One-Way disables NJFA
+    Selecting Two-ways reenables it
+    """
+    def updateRadioButtons(self):
+        if self.OneWayRadioButton.isChecked():
+            self.NJFARadioButton.setEnabled(False)
+
+            self.NJFARadioButton.setChecked(False)
+            self.DJFARadioButton.setChecked(True)
+
+        elif self.BothWayRadioButton.isChecked():
+            self.NJFARadioButton.setEnabled(True)
+
+    """
     Method called for simulating a logical step/jump in the JFA
     Calls specific method based on user selection and updates specific variable
     to provide user feedback
@@ -559,6 +574,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         self.SaveButton.clicked.connect(self.saveConfigAction)
         self.LoadButton.clicked.connect(self.loadConfigAction)
+
+        self.BothWayRadioButton.clicked.connect(self.updateRadioButtons)
+        self.OneWayRadioButton.clicked.connect(self.updateRadioButtons)
 
         # Connect load states action on text changed flag
         self.machineStatesText.textChanged.connect(self.loadStatesAction)
