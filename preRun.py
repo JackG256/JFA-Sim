@@ -148,14 +148,18 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
         if not helpSymbolWasProvided(entry, alphabet):
             raise SymbolDoesNotExistError(entry[1])
 
+    # If the automaton runs nondeterministically, return
     if not deterministic:
         return filteredJumpEntriesList
 
+    # Looks through all filtered transitions
     jumpsByOriginDestination = []
     for entry in filteredJumpEntriesList:
-        if entry[0] in jumpsByOriginDestination:
+        # if transition in format initial state - symbol already exists in list of checked transitions, raise error
+        if [entry[0], entry[1]] in jumpsByOriginDestination:
             raise InvalidDeterministicFormat(entry[0])
-        jumpsByOriginDestination.append(entry[0])
+        # Add entry to list of checked transitions
+        jumpsByOriginDestination.append([entry[0], entry[1]])
 
     return filteredJumpEntriesList
 
