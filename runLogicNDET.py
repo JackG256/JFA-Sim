@@ -7,14 +7,16 @@ def generateAdjacencyMatrix(jTransitions, iterationMax, inputString, startState,
     nextMatrix = np.array(initialMatrix)
     matrixConstant = nextMatrix
 
-    for _ in range(1, iterationMax):
-        nextMatrix = np.dot(nextMatrix, matrixConstant)
+    # Raise adjacency matrix to the power of
+    # number of symbols in input string
+    nextMatrix = np.linalg.matrix_power(nextMatrix, iterationMax)
 
     startStateCoord = loadedStates.index(startState)
     endStatesCoords = [loadedStates.index(endstate) for endstate in endStates]
     path = ""
     for xCoord in endStatesCoords:
-        if nextMatrix[startStateCoord, xCoord] == 1:
+        if nextMatrix[startStateCoord, xCoord] >= 1:
+            # Try to find first accepting path
             path = findPath(jTransitions, startState, loadedStates[xCoord], iterationMax)
 
             if path is not None:
