@@ -506,13 +506,13 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         if not stringHasSymbols:
             if self.currentState in self.endStates:
                 self.statusText.setText(
-                    f"<b>Machine ACCEPTED</b><br>"
+                    f"<b>String ACCEPTED</b><br>"
                     f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
                     f" via reading {self.prevInfo[1]}"
                 )
             else:
                 self.statusText.setText(
-                    f"<b>Machine REFUSED</b><br>"
+                    f"<b>String REFUSED</b><br>"
                     f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
                     f" via reading {self.prevInfo[1]}"
                 )
