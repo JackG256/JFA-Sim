@@ -581,8 +581,11 @@ configuration</string>
     <property name="text">
      <string>One-Way</string>
     </property>
-    <property name="checked">
+    <property name="checkable">
      <bool>true</bool>
+    </property>
+    <property name="checked">
+     <bool>false</bool>
     </property>
     <property name="autoExclusive">
      <bool>true</bool>
@@ -609,7 +612,7 @@ configuration</string>
      <string>Both-Ways</string>
     </property>
     <property name="checked">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="autoExclusive">
      <bool>true</bool>
