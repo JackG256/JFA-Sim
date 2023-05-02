@@ -159,7 +159,7 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
 
     # Remove redundant whitespaces, split by new line and split each separate line by separator characters
     filteredJumpEntriesList = []
-    for entry in unfiltered.replace(" ", "").split("\n"):
+    for entry in unfiltered.replace(" ", "").rstrip().split("\n"):
         filteredJumpEntriesList.append(entry.split("-"))
 
     # Test checks if information in jump transition is valid
