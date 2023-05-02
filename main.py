@@ -168,6 +168,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Prevent empty selection
             if tmp != "No Selection":
                 self.startState = tmp
+                self.currentState = self.startState
             else:
                 raise StartStateNotFoundError()
 
@@ -177,10 +178,12 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # implicit assignment (overwrites values from previous runs)
             self.endStates = [checkbox.text() for checkbox in self.checkBoxList if checkbox.isChecked()]
 
+            if len(self.endStates) < 1:
+                raise EndStateNotFoundError
+
             # Get and filter inputs
-            # Get list of machine states and current state
-            self.machineStates, self.currentState = preRun.filterMachineStates(self.machineStatesText.toPlainText(),
-                                                                               self.startState, self.endStates)
+            # Get list of machine states
+            self.machineStates = preRun.filterMachineStates(self.machineStatesText.toPlainText())
 
             # Get list of provided transitions
             self.jTransitions = preRun.filterJumpTransitions(self.jumpsDeclareText.toPlainText(), self.alphabet,
