@@ -57,7 +57,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         if not filename.endswith(".JFACON"):
             filename += ".JFACON"
 
-        if filename:
+        # Check of only extension to prevent saving in current directury
+        if filename != ".JFACON":
             # Save data to the selected file
             with open(filename, "w") as f:
                 f.write(str(self.inputAlphabetText.toPlainText()) + "\n")
@@ -65,7 +66,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 f.write(str(self.machineStatesText.toPlainText()) + "\n")
                 f.write(str(self.jumpsDeclareText.toPlainText()) + "\n")
 
-            print("Data saved to file:", filename)
+                print("Data saved to file:", filename)
 
     """
     Method called for loading JFA context from a file.
