@@ -82,7 +82,7 @@ def filterInputString(unfiltered, alphabet):
     return unfiltered, formattedDict
 
 
-def filterMachineStates(unfiltered, startMarked, endMarked):
+def filterMachineStates(unfiltered):
     """
     Filtering function that takes input from 'Machine States field'
     Input is filtered into a list and ran through a few test checks for validity and consistency
@@ -92,22 +92,10 @@ def filterMachineStates(unfiltered, startMarked, endMarked):
     hasStartState: Used to check if input contains marked starting state
     hasEndState: Used to check if input contains marked end state
 
-    :param startMarked: An instance of selected state from 'Starting state combobox', if empty, exception is called
-    :param endMarked:  A list of selected checkbox instances generated from provided machine states, has to have
-                       at least 1 value
     :param unfiltered: string value from input field
     :exception EmptyFieldError: Custom exception, raised when input field is empty, takes string name of field as input
-    :exception StartStateNotFoundError: Custom exception, raised when machine states do not contain starting state
-    :exception EndStateNotFoundError: Custom exception, raised when machine states do not contain ending state
     :return unfiltered: Machine recognized states in the form of a list of states
     """
-
-    # Helping flags
-    hasStartState = False
-    hasEndState = False
-
-    # Helping variables
-    startingState = ""
 
     # Split string by division symbol
     unfiltered = unfiltered.split(";")
@@ -121,22 +109,7 @@ def filterMachineStates(unfiltered, startMarked, endMarked):
         if len(entry) == 0:
             unfiltered.remove(entry)
 
-    # Go through entries and check for start and end fields
-    # Need at least one of each
-    for entry in unfiltered:
-        if not hasStartState and entry == startMarked:
-            hasStartState = True
-            startingState = startMarked
-        if not hasEndState and entry in endMarked:
-            hasEndState = True
-
-    # Call exceptions based on flags
-    if not hasStartState:
-        raise StartStateNotFoundError()
-    if not hasEndState:
-        raise EndStateNotFoundError()
-
-    return unfiltered, startingState
+    return unfiltered
 
 
 def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
@@ -219,7 +192,7 @@ def helpFirstStateWasProvided(inputtedJumpTransition, machinestates):
 def helpSecondStateWasProvided(inputtedJumpTransition, machinestates):
     """
     Helping function to determine whether a state provided in a jump function actually exists within automata context
-    Tests only sencond state
+    tests only sencond state
 
     :param inputtedJumpTransition: Specified jump transition, List in format of 'state - symbol - state'
     :param machinestates: List of all specified machine states
