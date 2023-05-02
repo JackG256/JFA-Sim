@@ -34,7 +34,7 @@ class InvalidDeterministicFormat(Exception):
 
     def __str__(self):
         return f"Provided configuration of jump transitions doesn't behave deterministically:" \
-               f"<br>The state {self.state} has too many outward transitions"
+               f"<br>The state {self.state} has too many outward transitions of same symbol"
 
     pass
 
