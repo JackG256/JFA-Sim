@@ -1,7 +1,6 @@
 import ctypes
 import sys
 import os
-import numpy as np
 
 from PyQt5 import uic
 from PyQt5.QtCore import Qt
@@ -20,8 +19,6 @@ from customExceptions import *
 import preRun
 import runLogicDET
 import runLogicNDET
-
-# import assistFunctions
 
 qtCreatorFile = "baseUI.ui"
 helpUI = "helpWindow.ui"
