@@ -139,3 +139,14 @@ class NoAcceptPathFound(Exception):
 
     def __str__(self):
         return f"Current automata configuration contains no accepting path.\n<b>String automatically refused!<b>"
+
+
+class InputStringTooLong(Exception):
+    """Input string is too long for evaluation"""
+
+    def __init__(self, length, *args):
+        super().__init__(args)
+        self.length = length
+
+    def __str__(self):
+        return f"Currently inputted string is too long ({self.length} symbols). Maximum string size is 10 symbols"
