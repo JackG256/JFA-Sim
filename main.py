@@ -603,15 +603,10 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.checkBoxList = []
 
         # Global variables for labels for instance layout
-        self.labelString = ""
-        self.labelState = ""
-        self.labelJumpsText = QLabel("Possible jumps\nfrom state:\n")
-        self.labelJumps = ""
-
-        # Manual formatting of a label
-        self.labelJumpsText.setFont(QFont("Arial", 10, QFont.Bold))
-        self.labelJumpsText.setAlignment(Qt.AlignCenter)
-        self.labelJumpsText.setFixedSize(158, 30)
+        self.labelString = None
+        self.labelState = None
+        self.labelJumps = None
+        self.labelJumpsText = None
 
         # Connect control action to corresponding control buttons
         self.exitButton.clicked.connect(self.exitAction)
