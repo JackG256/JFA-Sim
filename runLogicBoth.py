@@ -34,7 +34,6 @@ def printCurrectFormattedInputDictionary(inputString):
 
 
 def createFormattedStringLabel(inputStringFull, readSymbols, lastPos):
-
     """
     Returns a coloured HTML format string to put in instance string label
 
@@ -82,6 +81,7 @@ def returnRedInputString(inputStringFull):
         labelString += f"<span style='color:red'>{symbol}</span>"
 
     return labelString
+
 
 def findNextJumps(jTransitions, currentState, inputString):
     """
