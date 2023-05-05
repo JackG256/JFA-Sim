@@ -16,6 +16,7 @@ def generateFormattedInputDictionary(inputDict):
 
     # Cut last 2 dividing symbols
 
+    formattedInputStr = formattedInputStr[:-2]
     return formattedInputStr
 
 
