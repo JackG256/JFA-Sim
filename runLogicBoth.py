@@ -11,10 +11,10 @@ def generateFormattedInputDictionary(inputDict):
 
     formattedInputStr = ""
     for key in inputDict:
-        formattedInputStr += f"// {key} ^ {inputDict[key]} "
+        formattedInputStr += f" {key} ^ {inputDict[key]} "
+        formattedInputStr += f"//"
 
-    # Final string detail
-    formattedInputStr += "//"
+    # Cut last 2 dividing symbols
 
     return formattedInputStr
 
