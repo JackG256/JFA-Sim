@@ -202,6 +202,31 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 f" {self.machineStates}\nSpecified starting state: {self.startState}\n"
                 f"Specified end states: {self.endStates}\nSpecified jumps: {self.jTransitions}")
 
+            # If non-deterministic behaviour, try and find an accepting path
+            if not self.deterministic:
+                # Get the earliest possible path for one instance of non-deterministic automaton
+                path = runLogicNDET.generateAdjMatrixAndPath(self.jTransitions, len(self.inputStringFull),
+                                                             self.inputStringFull, self.startState, self.endStates)
+
+                # Reset global counter for non-deterministic runtime
+                self.nonDethIter = 0
+
+                # Check if method didn't return empty string (no path found)
+                if path is not None:
+                    # If path was found, save values and flip global flags
+                    self.nonDetPathFound = True
+                    self.nonDetPath = path[0]
+                    self.nonDetSymbols = path[1]
+                    print(f"Found acceptable path in non-deterministic evaluation:"
+                          f"\n{self.nonDetPath}\n\n{self.nonDetSymbols}")
+
+                else:
+                    # If path was not found, raise exception to generate user feedback
+                    self.nonDetPathFound = False
+                    print("Didn't manage to find an acceptable path in non-deterministic evaluation."
+                          " Throwing exception")
+                    raise NoAcceptPathFound()
+
             # Generate labels for an instance of JFA with their content
             # Label containing input string
             self.labelString = QLabel("".join(self.inputStringFull))

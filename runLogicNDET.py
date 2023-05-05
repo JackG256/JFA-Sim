@@ -1,4 +1,5 @@
 import numpy as np
+import time
 
 
 def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState, endStates):
@@ -30,26 +31,33 @@ def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState
     # Get coordinates of end states
     endStatesCoords = [loadedStates.index(endstate) for endstate in endStates]
 
-    path = ""
+    returnPath = None
+    validPathFound = False
     # Iterativelly check over all coordinates if value of cell is greater than 1
     # (a path in n moves exist from start state to end state exists)
     for xCoord in endStatesCoords:
+        if validPathFound:
+            break
+
         if nextMatrix[startStateCoord, xCoord] >= 1:
             # Try to find first accepting path
             path = findPath(jTransitions, startState, loadedStates[xCoord], iterationMax)
 
             # if path exists, check if symbols read along the way match up symbols in input string
             if path is not None:
-                readSymbols = ''.join(sorted(path[1]))
-                sortedString = ''.join(sorted(inputString))
-                # If yes, break and return
-                if readSymbols == sortedString:
-                    break
+                for i, entry in enumerate(path):
+
+                    readSymbols = ''.join(sorted(entry[1]))
+                    sortedString = ''.join(sorted(inputString))
+                    # If yes, break and return
+                    if readSymbols == sortedString:
+                        returnPath = [entry[0], entry[1]]
+                        validPathFound = True
+                        break
 
                 # If no, clear and try again
-                path = ""
 
-    return path
+    return returnPath
 
 
 def createInitialMatrix(statePaths):
@@ -178,7 +186,7 @@ Too complicated, was scrapped
 
 def findPath(transitions, startState, endState, moves, path=None, symbols=None):
     """
-    Find a path from the startState to the endState in a graph represented by a list of transitions.
+    Find all possible paths from the startState to the endState in a graph represented by a list of transitions.
 
     :param transitions: A list of transitions in the format of [[stateX], [symbol], [stateY]].
     :param startState: The starting state of the path.
@@ -186,9 +194,9 @@ def findPath(transitions, startState, endState, moves, path=None, symbols=None):
     :param moves: The maximum number of moves allowed to reach the end state.
     :param path: (optional) A list to store the states in the path.
     :param symbols: (optional) A list to store the symbols on the edges of the path.
-    :return: A list containing a list of states representing a path from startState to endState
+    :return: A list of paths, where each path is a list of states representing a path from startState to endState
              in the graph in n moves and a list of symbols on the "edges" of the path (symbols read),
-             or None if no such path exists.
+             or an empty list if no such path exists.
     """
 
     # Initialize the path and symbols lists if they are not provided
@@ -200,35 +208,41 @@ def findPath(transitions, startState, endState, moves, path=None, symbols=None):
     # If no moves left, check if we have arrived at the end state
     if moves == 0:
         if startState == endState:
-            # If the end state has been reached, return the path and symbols
-            return [path, symbols]
+            # If the end state has been reached, return the path and symbols as a single-element list
+            return [[path, symbols]]
         else:
-            # If the end state has not been reached, return None
-            return None
+            # If the end state has not been reached, return an empty list
+            return []
 
     # If there is only one move left
     elif moves == 1:
+        paths = []
         for stateX, symbol, stateY in transitions:
             if stateX == startState and stateY == endState:
-                # If the edge connects the start and end states, return the path and symbols
-                # with the new state and symbol added
-                return [path + [endState], symbols + [symbol]]
-        # If no edge connects the start and end states, return None
-        return None
+                # If the edge connects the start and end states, add the new state and symbol to the path
+                new_path = path + [endState]
+                new_symbols = symbols + [symbol]
+                # Add the path to the list of valid paths
+                paths.append([new_path, new_symbols])
+        # Return the list of valid paths
+        return paths
 
     # If there are more than one moves left
     else:
+        paths = []
         for stateX, symbol, stateY in transitions:
             if stateX == startState:
+                # Generate a new path from state to state via transition
                 new_path = path + [stateY]
+                # Add symbol read of transition
                 new_symbols = symbols + [symbol]
                 # Recursively call findPath on the neighbor of the start state with moves decremented by 1
-                result = findPath(transitions, stateY, endState, moves - 1, new_path, new_symbols)
-                if result is not None:
-                    # If a path is found, return it
-                    return result
-        # If no path is found, return None
-        return None
+                sub_paths = findPath(transitions, stateY, endState, moves - 1, new_path, new_symbols)
+                # Add each valid sub-path to the list of valid paths
+                for sub_path in sub_paths:
+                    paths.append(sub_path)
+        # Return the list of valid paths
+        return paths
 
 
 def findNextSymbolPosition(currentReadSymbol, inputString, inputDict):
