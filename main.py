@@ -510,7 +510,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Update the jumps label with new text
         self.labelJumps.setText(
             str(
-                runLogicDET.findNextJumps(
+                runLogicBoth.findNextJumps(
                     self.jTransitions,
                     self.currentState,
                     self.inputString
@@ -590,8 +590,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         self.machineStates = ""
         self.jTransitions = ""
         self.lastPos = 0
-        self.currentReadSymbol = ""
-        self.currentReadSymbolPos = 0
         self.currentState = ""
         self.prevInfo = []
         self.formattedInputDict = []
