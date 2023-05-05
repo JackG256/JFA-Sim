@@ -58,6 +58,10 @@ def filterInputString(unfiltered, alphabet):
     :return formattedDict: Dictionary of number of occurences of each unique symbol
     """
 
+    # Limit string size for UI and complexity reasons
+    if len(unfiltered) > 10:
+        raise InputStringTooLong(len(unfiltered))
+
     # Split string into char list
     unfiltered = [*unfiltered]
 
