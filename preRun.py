@@ -154,9 +154,9 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
     jumpsByOriginSymbol = []
     for entry in filteredJumpEntriesList:
         # if transition in format initial state - symbol already exists in list of checked transitions, raise error
-        if [entry[0], entry[1]] in jumpsByOriginSymbol:
+        if entry[0] in jumpsByOriginSymbol:
             raise InvalidDeterministicFormat(entry[0])
         # Add entry to list of checked transitions
-        jumpsByOriginSymbol.append([entry[0], entry[1]])
+        jumpsByOriginSymbol.append(entry[0])
 
     return filteredJumpEntriesList
