@@ -476,7 +476,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
         # Custom exception handling
         except NoJumpToPerform as exc:
-            self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
+            self.statusText.setText(f"<b>String REFUSED</b><br><br>{exc}")
 
         # Debug prints
         # Print info about jump and automata
@@ -530,13 +530,13 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         if not stringHasSymbols:
             if self.currentState in self.endStates:
                 self.statusText.setText(
-                    f"<b>String ACCEPTED</b><br>"
+                    f"<b>String ACCEPTED</b><br><br>"
                     f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
                     f" via reading {self.prevInfo[1]}"
                 )
             else:
                 self.statusText.setText(
-                    f"<b>String REFUSED</b><br>"
+                    f"<b>String REFUSED</b><br><br>"
                     f"A jump has been performed!<br>{self.prevInfo[0]} -> {self.currentState}"
                     f" via reading {self.prevInfo[1]}"
                 )
