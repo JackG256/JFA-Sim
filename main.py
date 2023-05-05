@@ -257,6 +257,13 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             self.labelJumps.setAlignment(Qt.AlignCenter)
             self.labelJumps.setFixedSize(158, 134)
 
+            self.labelJumpsText = QLabel("Possible jumps\nfrom state:\n")
+
+            # Manual formatting of a label
+            self.labelJumpsText.setFont(QFont("Arial", 10, QFont.Bold))
+            self.labelJumpsText.setAlignment(Qt.AlignCenter)
+            self.labelJumpsText.setFixedSize(158, 30)
+
             # Create a sub-layout object containing labels
             layout = QVBoxLayout()
             # Put all labels into the sub-layout
