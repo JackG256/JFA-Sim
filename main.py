@@ -476,6 +476,9 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         for key in self.formattedInputDict:
             print(f"Key: '{key}': {self.formattedInputDict[key]}")
 
+        # Update textbox with occurence values
+        self.outputStringTextFormatted.setText(runLogicBoth.printCurrectFormattedInputDictionary(self.inputString))
+
         # Print info about new input string and current state
         print(
             f"\nNew input string: {self.inputString}"
