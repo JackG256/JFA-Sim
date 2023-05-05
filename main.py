@@ -134,6 +134,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Preemptively clear some variables
             self.readSymbols.clear()
             self.machineStarted = False
+            self.lastPos = 0
 
             # Loop to clear and remove all sublayouts in the instancesGrid layout
             while self.instancesGrid.count():
