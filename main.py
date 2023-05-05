@@ -236,7 +236,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
 
             # Label containing all possible next jumps
             self.labelJumps = QLabel(
-                str(runLogicDET.findNextJumps
+                str(runLogicBoth.findNextJumps
                     (self.jTransitions,
                      self.currentState,
                      self.inputString)

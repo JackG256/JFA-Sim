@@ -161,27 +161,3 @@ def findAndRunJumpBothSides(jTransitions, currentState, inputDict, inputString):
 
     return inputDict, outputString, currentState, previousInfo, readSymbolIndex
 
-
-def findNextJumps(jTransitions, currentState, inputString):
-    """
-    Finds the next possible jumps for the given current state and input string.
-
-    :param jTransitions: List of transitions
-    :param currentState: Current state name
-    :param inputString: A string representing the input symbols.
-    :return: A string containing a list of up to five possible jumps in the format
-             "<source> -> <destination> (<symbol>)", separated by newlines. If there are no possible jumps,
-              returns an empty string.
-    """
-
-    output = ""
-    maxText = 5
-
-    for entry in jTransitions:
-        if entry[0] == currentState and entry[1] in inputString:
-            output += f"{entry[0]} -> {entry[2]} ( {entry[1]} )\n"
-            maxText -= 1
-        if not maxText:
-            break
-
-    return output
