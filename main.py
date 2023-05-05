@@ -274,31 +274,6 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
             # Used to reset instances in layout if new machine loaded
             self.instancesGrid.addWidget(layoutWidget)
 
-            # If non-deterministic behaviour, try and find an accepting path
-            if not self.deterministic:
-                # Get the earliest possible path for one instance of non-deterministic automaton
-                path = runLogicNDET.generateAdjMatrixAndPath(self.jTransitions, len(self.inputStringFull),
-                                                             self.inputStringFull, self.startState, self.endStates)
-
-                # Reset global counter for non-deterministic runtime
-                self.nonDethIter = 0
-
-                # Check if method didn't return empty string (no path found)
-                if path != "":
-                    # If path was found, save values and flip global flags
-                    self.nonDetPathFound = True
-                    self.nonDetPath = path[0]
-                    self.nonDetSymbols = path[1]
-                    print(f"Found acceptable path in non-deterministic evaluation:"
-                          f"\n{self.nonDetPath}\n\n{self.nonDetSymbols}")
-
-                else:
-                    # If path was not found, raise exception to generate user feedback
-                    self.nonDetPathFound = False
-                    print("Didn't manage to find an acceptable path in non-deterministic evaluation."
-                          " Throwing exception")
-                    raise NoAcceptPathFound()
-
             # If all fetches and checks passed, inform the user and flig global flag
             self.statusText.setText("Passed!\n" "Machine has been loaded!")
 
