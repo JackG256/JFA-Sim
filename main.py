@@ -292,9 +292,11 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 StateDoesNotExistError,
                 SymbolDoesNotExistError,
                 InvalidDeterministicFormat,
-                NoAcceptPathFound
+                InputStringTooLong
         ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
+        except NoAcceptPathFound as exc:
+            self.statusText.setText(f"<b>STRING REFUSED</b><br><br>{exc}")
 
     @staticmethod
     def exitAction():
