@@ -1,5 +1,4 @@
 import numpy as np
-import time
 
 
 def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState, endStates):
