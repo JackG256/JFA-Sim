@@ -25,7 +25,7 @@ class EmptyFieldError(Exception):
     pass
 
 
-class InvalidDeterministicFormat(Exception):
+class InvalidDeterministicFormatError(Exception):
     """Provided jump transitions are invalid for deterministic approach"""
 
     def __init__(self, state, *args):
@@ -118,7 +118,7 @@ class SymbolDoesNotExistError(Exception):
     pass
 
 
-class NoJumpToPerform(Exception):
+class NoJumpToPerformError(Exception):
     """Provided state has no jump to perform"""
 
     def __init__(self, state, *args):
@@ -126,12 +126,12 @@ class NoJumpToPerform(Exception):
         self.state = state
 
     def __str__(self):
-        return f"Current machine state has no jump to perform: '{self.state}'"
+        return f"Current machine state has no transition to perform: '{self.state}'"
 
     pass
 
 
-class NoAcceptPathFound(Exception):
+class NoAcceptPathFoundError(Exception):
     """No accepting path exists for current non-deterministic setup"""
 
     def __init__(self, *args):
@@ -141,7 +141,7 @@ class NoAcceptPathFound(Exception):
         return f"Current automata configuration contains no accepting path.\n<b>String automatically refused!<b>"
 
 
-class InputStringTooLong(Exception):
+class InputStringTooLongError(Exception):
     """Input string is too long for evaluation"""
 
     def __init__(self, length, *args):

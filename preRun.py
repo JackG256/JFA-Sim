@@ -60,7 +60,7 @@ def filterInputString(unfiltered, alphabet):
 
     # Limit string size for UI and complexity reasons
     if len(unfiltered) > 10:
-        raise InputStringTooLong(len(unfiltered))
+        raise InputStringTooLongError(len(unfiltered))
 
     # Split string into char list
     unfiltered = [*unfiltered]
@@ -159,7 +159,7 @@ def filterJumpTransitions(unfiltered, alphabet, machineStates, deterministic):
     for entry in filteredJumpEntriesList:
         # if transition in format initial state - symbol already exists in list of checked transitions, raise error
         if entry[0] in jumpsByOriginSymbol:
-            raise InvalidDeterministicFormat(entry[0])
+            raise InvalidDeterministicFormatError(entry[0])
         # Add entry to list of checked transitions
         jumpsByOriginSymbol.append(entry[0])
 

@@ -121,7 +121,7 @@ class test_Case_FilterJumpTransitions(unittest.TestCase):
         inputStates = ["Q0", "Q1", "Q2", "Q3"]
         inputDeterministic = True
 
-        with self.assertRaises(InvalidDeterministicFormat):
+        with self.assertRaises(InvalidDeterministicFormatError):
             preRun.filterJumpTransitions(inputData, inputAlphabet, inputStates, inputDeterministic)
 
 

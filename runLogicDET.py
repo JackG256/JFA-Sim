@@ -1,4 +1,4 @@
-from customExceptions import NoJumpToPerform
+from customExceptions import NoJumpToPerformError
 
 
 def findAndRunJumpOneSide(jTransitions, currentState, inputDict, inputString, lastPos):
@@ -29,7 +29,7 @@ def findAndRunJumpOneSide(jTransitions, currentState, inputDict, inputString, la
     # If there are no transitions, throw custom error
     # NOTE: length of listOfEndpoints should never go above 1, prevented by sanity checks
     if len(listOfEndpoints) != 1:
-        raise NoJumpToPerform(currentState)
+        raise NoJumpToPerformError(currentState)
 
     # Get currently read symbol from transition
     currentReadSymbol = listOfEndpoints[0][1]
@@ -121,7 +121,7 @@ def findAndRunJumpBothSides(jTransitions, currentState, inputDict, inputString):
     # If there are no transitions, throw custom error
     # NOTE: length of listOfEndpoints should never go above 1, prevented by sanity checks
     if len(listOfEndpoints) != 1:
-        raise NoJumpToPerform(currentState)
+        raise NoJumpToPerformError(currentState)
 
     # Save information to a tuple
     previousInfo = [listOfEndpoints[0][0], listOfEndpoints[0][1]]

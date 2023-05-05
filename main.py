@@ -225,7 +225,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     self.nonDetPathFound = False
                     print("Didn't manage to find an acceptable path in non-deterministic evaluation."
                           " Throwing exception")
-                    raise NoAcceptPathFound()
+                    raise NoAcceptPathFoundError()
 
             # Generate labels for an instance of JFA with their content
             # Label containing input string
@@ -298,11 +298,11 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 EndStateNotFoundError,
                 StateDoesNotExistError,
                 SymbolDoesNotExistError,
-                InvalidDeterministicFormat,
-                InputStringTooLong
+                InvalidDeterministicFormatError,
+                InputStringTooLongError
         ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
-        except NoAcceptPathFound as exc:
+        except NoAcceptPathFoundError as exc:
             self.statusText.setText(f"<b>STRING REFUSED</b><br><br>{exc}")
 
     @staticmethod
@@ -475,7 +475,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 f" via reading {self.prevInfo[1]}")
 
         # Custom exception handling
-        except NoJumpToPerform as exc:
+        except NoJumpToPerformError as exc:
             self.statusText.setText(f"<b>String REFUSED</b><br><br>{exc}")
 
         # Debug prints
