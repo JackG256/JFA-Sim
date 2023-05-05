@@ -74,3 +74,11 @@ def createFormattedStringLabel(inputStringFull, readSymbols, lastPos):
             labelString += f"<span style='color:black'>{symbol}</span>"
 
     return labelString
+
+
+def returnRedInputString(inputStringFull):
+    labelString = ""
+    for symbol in inputStringFull:
+        labelString += f"<span style='color:red'>{symbol}</span>"
+
+    return labelString

@@ -532,6 +532,11 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                     f" via reading {self.prevInfo[1]}"
                 )
 
+            # Update the content of instance string label
+            # All symbols read -> entire label is red
+            labelString = runLogicBoth.returnRedInputString(self.inputStringFull)
+            self.labelString.setText(labelString)
+
             # Flip the flag to prevent running logic on empty data
             self.machineStarted = False
 
