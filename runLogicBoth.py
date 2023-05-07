@@ -20,19 +20,6 @@ def generateFormattedInputDictionary(inputDict):
     return formattedInputStr
 
 
-def printCurrectFormattedInputDictionary(inputString):
-    inputString = sorted(inputString)
-    currentDict = {}
-    for symbol in inputString:
-        if symbol != "_":
-            if symbol in currentDict:
-                currentDict[symbol] += 1
-            else:
-                currentDict[symbol] = 1
-
-    return generateFormattedInputDictionary(currentDict)
-
-
 def createFormattedStringLabel(inputStringFull, readSymbols, lastPos):
     """
     Returns a coloured HTML format string to put in instance string label
