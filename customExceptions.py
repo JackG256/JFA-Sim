@@ -154,3 +154,15 @@ class InputStringTooLongError(Exception):
         return f"Currently inputted string is too long ({self.length} symbols). Maximum string size is 10 symbols"
 
     pass
+
+
+class PathNoTransitionProvided(Exception):
+    """No transitions provided for specified state"""
+    def __init__(self, state, *args):
+        super().__init__(args)
+        self.state = state
+
+    def __str__(self):
+        return f"State {self.state} has no relevant transitions.\n<b>String automatically refused</b>"
+
+    pass

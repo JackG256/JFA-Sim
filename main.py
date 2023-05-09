@@ -299,7 +299,8 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
                 StateDoesNotExistError,
                 SymbolDoesNotExistError,
                 InvalidDeterministicFormatError,
-                InputStringTooLongError
+                InputStringTooLongError,
+                PathNoTransitionProvided
         ) as exc:
             self.statusText.setText(f"<b>ERROR</b><br><br>{exc}")
         except NoAcceptPathFoundError as exc:

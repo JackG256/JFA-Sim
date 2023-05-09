@@ -1,4 +1,5 @@
 import numpy as np
+from customExceptions import PathNoTransitionProvided
 
 
 def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState, endStates):
@@ -25,10 +26,21 @@ def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState
     # number of symbols in input string
     nextMatrix = np.linalg.matrix_power(nextMatrix, iterationMax)
 
+    # Check if start state wasn't ommited in matrix generation
+    if startState not in loadedStates:
+        raise PathNoTransitionProvided(startState)
+
     # Get coordinate of initial state
     startStateCoord = loadedStates.index(startState)
+
+    # Get all end states considered by the adjacency matrix
+    activeEndStates = []
+    for state in endStates:
+        if state in loadedStates:
+            activeEndStates.append(state)
+
     # Get coordinates of end states
-    endStatesCoords = [loadedStates.index(endstate) for endstate in endStates]
+    endStatesCoords = [loadedStates.index(endstate) for endstate in activeEndStates]
 
     returnPath = None
     validPathFound = False
@@ -43,7 +55,7 @@ def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState
             path = findPath(jTransitions, startState, loadedStates[xCoord], iterationMax)
 
             # if path exists, check if symbols read along the way match up symbols in input string
-            if path is not None:
+            if path is not []:
                 for i, entry in enumerate(path):
 
                     readSymbols = ''.join(sorted(entry[1]))
@@ -53,8 +65,6 @@ def generateAdjMatrixAndPath(jTransitions, iterationMax, inputString, startState
                         returnPath = [entry[0], entry[1]]
                         validPathFound = True
                         break
-
-                # If no, clear and try again
 
     return returnPath
 
