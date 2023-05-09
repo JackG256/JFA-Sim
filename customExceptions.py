@@ -163,6 +163,6 @@ class PathNoTransitionProvided(Exception):
         self.state = state
 
     def __str__(self):
-        return f"State {self.state} has no relevant transitions.\n<b>String automatically refused</b>"
+        return f"State {self.state} has no relevant transitions.<br><b>String automatically refused</b>"
 
     pass
