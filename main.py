@@ -478,6 +478,7 @@ class MainAppWindow(QMainWindow, Ui_MainWindow):
         # Custom exception handling
         except NoJumpToPerformError as exc:
             self.statusText.setText(f"<b>String REFUSED</b><br><br>{exc}")
+            self.machineStarted = False
 
         # Debug prints
         # Print info about jump and automata
