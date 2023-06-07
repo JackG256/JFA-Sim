@@ -115,7 +115,7 @@ def findAndRunJumpBothSides(jTransitions, currentState, inputDict, inputString):
     # Go through all transitions
     # Save all relative to intial and target state
     for entry in jTransitions:
-        if entry[0] == currentState and entry[1] in inputDict:
+        if entry[0] == currentState and inputDict[entry[1]] > 0:
             listOfEndpoints.append(entry)
 
     # If there are no transitions, throw custom error
