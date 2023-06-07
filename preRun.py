@@ -48,6 +48,7 @@ def filterInputString(unfiltered, alphabet):
 
     Creates formattedDict dictionary that stores occurences of each symbol in key-value pairs.
 
+    :param deterministic: boolean value defining, whether the automata runs in deterministic or non-deterministic mode
     :param unfiltered: string value from input field
     :param alphabet: a list of all recognized letters
     :raises EmptyFieldError: Custom exception, raised when input field is empty, takes string name of field as input
